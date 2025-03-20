@@ -58,6 +58,31 @@ export interface HeroSelect {
 /**
  * 
  * @export
+ * @interface UserResponse
+ */
+export interface UserResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserResponse
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserResponse
+     */
+    'public_key': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserResponse
+     */
+    'login_time': number;
+}
+/**
+ * 
+ * @export
  * @interface ValidationError
  */
 export interface ValidationError {
@@ -96,6 +121,66 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Generate Keypair
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateKeypairGenerateKeypairGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/generate_keypair`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUsersUsersGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Hero Select
          * @param {HeroSelect} heroSelect 
          * @param {*} [options] Override http request option.
@@ -130,6 +215,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Login
+         * @param {string} publicKey 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginLoginGet: async (publicKey: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'publicKey' is not null or undefined
+            assertParamExists('loginLoginGet', 'publicKey', publicKey)
+            const localVarPath = `/login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (publicKey !== undefined) {
+                localVarQueryParameter['public_key'] = publicKey;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -142,6 +264,30 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Generate Keypair
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async generateKeypairGenerateKeypairGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.generateKeypairGenerateKeypairGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.generateKeypairGenerateKeypairGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUsersUsersGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserResponse>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUsersUsersGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getUsersUsersGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Hero Select
          * @param {HeroSelect} heroSelect 
          * @param {*} [options] Override http request option.
@@ -151,6 +297,19 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.heroSelectHeroSelectPost(heroSelect, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.heroSelectHeroSelectPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Login
+         * @param {string} publicKey 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async loginLoginGet(publicKey: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.loginLoginGet(publicKey, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.loginLoginGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -165,6 +324,24 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Generate Keypair
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        generateKeypairGenerateKeypairGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.generateKeypairGenerateKeypairGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUsersUsersGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserResponse>> {
+            return localVarFp.getUsersUsersGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Hero Select
          * @param {HeroSelect} heroSelect 
          * @param {*} [options] Override http request option.
@@ -172,6 +349,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         heroSelectHeroSelectPost(heroSelect: HeroSelect, options?: RawAxiosRequestConfig): AxiosPromise<any> {
             return localVarFp.heroSelectHeroSelectPost(heroSelect, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Login
+         * @param {string} publicKey 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginLoginGet(publicKey: string, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.loginLoginGet(publicKey, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -185,6 +372,28 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export class DefaultApi extends BaseAPI {
     /**
      * 
+     * @summary Generate Keypair
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public generateKeypairGenerateKeypairGet(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).generateKeypairGenerateKeypairGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Users
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getUsersUsersGet(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getUsersUsersGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Hero Select
      * @param {HeroSelect} heroSelect 
      * @param {*} [options] Override http request option.
@@ -193,6 +402,18 @@ export class DefaultApi extends BaseAPI {
      */
     public heroSelectHeroSelectPost(heroSelect: HeroSelect, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).heroSelectHeroSelectPost(heroSelect, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Login
+     * @param {string} publicKey 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public loginLoginGet(publicKey: string, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).loginLoginGet(publicKey, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

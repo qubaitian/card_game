@@ -65,9 +65,9 @@ export class SelectHero extends Scene {
         };
 
         // Create three hero cards with titles and descriptions
-        createCard(0, 220, "Warrior", "A mighty fighter\nwith great strength", 0);
-        createCard(1000, 220, "Mage", "Master of arcane\nand magical arts", 1);
-        createCard(1500, 220, "Rogue", "Swift and stealthy\nassassin", 2);
+        createCard(gameOptions.cardWidth * 0.5, 220, "Warrior", "A mighty fighter\nwith great strength", 0);
+        createCard(gameOptions.cardWidth * 1.5, 220, "Mage", "Master of arcane\nand magical arts", 1);
+        createCard(gameOptions.cardWidth * 2.5, 220, "Rogue", "Swift and stealthy\nassassin", 2);
     }
 
     private async onHeroSelect(heroIndex: number) {
