@@ -75,7 +75,7 @@ export class SelectHero extends Scene {
         const result = await api.heroSelectHeroSelectPost({
             hero_id: heroIndex,
             user_id: 1 // You'll need to get the actual user ID from your auth system
-        }, {method: 'POST'});
+        });
         console.log(result);
         
         // 保存英雄ID到游戏状态和localStorage

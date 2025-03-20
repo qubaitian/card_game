@@ -15,7 +15,17 @@
 import { DefaultApiFactory } from "./api";
 import { Configuration } from "./configuration";
 
+let res = await DefaultApiFactory(new Configuration({
+    basePath: "http://0.0.0.0:8000"
+})).generateKeypairGenerateKeypairGet();
+
 export const api = DefaultApiFactory(new Configuration({
     basePath: "http://0.0.0.0:8000",
-    baseOptions: { headers: { "Authorization": "0338333a490f1ddf27477cd5295731618a4265eb2655bd7a4f36c5fdd9ad1337.HEsztDrxY85zuW2l/eJCcnrz+LLrBlayJezVhDHjFb0ncuLcbRDs96+zUcWvzCnGo3U=" } }
+    baseOptions: {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": res.data.access_token,
+        }
+    }
 }));
