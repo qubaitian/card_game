@@ -19,7 +19,7 @@ export class Game extends Scene
 
     create ()
     {
-        
+
         this.add.image(512, 384, 'background');
         this.add.image(512, 350, 'logo').setDepth(100);
         this.add.text(512, 490, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
@@ -30,8 +30,13 @@ export class Game extends Scene
         
         EventBus.emit('current-scene-ready', this);
 
-        // press space to go to the next scene
-        this.input.keyboard?.on('keydown-SPACE', () => {
+        // Support both touch/pointer and keyboard input
+        this.input.on('pointerdown', () => {
+            this.scene.start('SelectHero');
+        });
+
+        // Keep keyboard support as well
+        this.input.keyboard?.addKey('SPACE').on('down', () => {
             this.scene.start('SelectHero');
         });
 

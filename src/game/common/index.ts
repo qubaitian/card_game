@@ -14,13 +14,15 @@
 
 import { DefaultApiFactory } from "./api";
 import { Configuration } from "./configuration";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 
 let res = await DefaultApiFactory(new Configuration({
-    basePath: "http://0.0.0.0:8000"
+    basePath: API_BASE_URL
 })).generateKeypairGenerateKeypairGet();
 
 export const api = DefaultApiFactory(new Configuration({
-    basePath: "http://0.0.0.0:8000",
+    basePath: API_BASE_URL,
     baseOptions: {
         credentials: 'include',
         headers: {
