@@ -9,8 +9,8 @@ const config: Types.Core.GameConfig = {
     scale: {
         mode: Scale.FIT,
         parent: 'game-container',
-        width: 800,
-        height: 600,
+        width: 1920,
+        height: 1080,
         autoCenter: Scale.CENTER_BOTH
     },
     scene: [

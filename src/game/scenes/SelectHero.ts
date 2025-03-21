@@ -1,5 +1,7 @@
 import { Scene } from 'phaser';
 import { api } from '../common';
+import { lang, Language } from '../config/lang';
+import { UIBar } from '../components/UIBar';
 
 let gameOptions = {
 
@@ -14,8 +16,12 @@ let gameOptions = {
 }
 
 export class SelectHero extends Scene {
+    private currentLang: Language = 'en';  // 默认语言为英语
+
     constructor() {
         super({ key: 'SelectHero' });
+        // 从 localStorage 获取用户语言设置，如果没有则使用默认值
+        this.currentLang = (localStorage.getItem('language') as Language) || 'en';
     }
 
     preload() {
@@ -33,94 +39,92 @@ export class SelectHero extends Scene {
     }
 
     create() {
-        // Add UI bar first
-        this.createUIBar();
+        // Create UI bar with language change callback
+        new UIBar(this, (language: Language) => this.setLanguage(language));
 
-        // Helper function to create a card with text
-        const createCard = (x: number, y: number, title: string, content: string, index: number) => {
-            // Create a container to hold all card elements
-            const container = this.add.container(x, y);
-            
-            // Add the card sprite as background
-            const cardSprite = this.add.sprite(0, 0, "cards", index)
-                .setScale(gameOptions.cardScale);
-            
-            // Add title text
-            const titleText = this.add.text(0, -120, title, {
-                fontSize: '24px',
-                color: '#000000',
-            }).setOrigin(0.5);
-            
-            // Add content text
-            const contentText = this.add.text(0, -50, content, {
-                fontSize: '18px',
-                color: '#000000',
-                wordWrap: { width: gameOptions.cardWidth * 0.7 }
-            }).setOrigin(0.5);
-            
-            // Add all elements to the container
-            container.add([cardSprite, titleText, contentText]);
-            
-            // Make the container interactive
-            container.setSize(cardSprite.width * gameOptions.cardScale, cardSprite.height * gameOptions.cardScale);
-            container.setInteractive();
-            
-            // Add click handler
-            container.on('pointerdown', () => this.onHeroSelect(index));
-            
-            return container;
-        };
-
+        const texts = lang[this.currentLang];
+        
         // Create three hero cards with titles and descriptions
-        createCard(gameOptions.cardWidth * 0.5, gameOptions.cardHeight * 1, "Warrior", "A mighty fighter\nwith great strength", 0);
-        createCard(gameOptions.cardWidth * 1.5, gameOptions.cardHeight * 1, "Mage", "Master of arcane\nand magical arts", 1);
-        createCard(gameOptions.cardWidth * 2.5, gameOptions.cardHeight * 1, "Rogue", "Swift and stealthy\nassassin", 2);
+        this.createCard(
+            gameOptions.cardWidth * 0.5, 
+            gameOptions.cardHeight * 1, 
+            texts.heroes[0].title, 
+            texts.heroes[0].content, 
+            0
+        );
+        this.createCard(
+            gameOptions.cardWidth * 2, 
+            gameOptions.cardHeight * 1, 
+            texts.heroes[1].title, 
+            texts.heroes[1].content, 
+            1
+        );
+        this.createCard(
+            gameOptions.cardWidth * 3.5, 
+            gameOptions.cardHeight * 1, 
+            texts.heroes[2].title, 
+            texts.heroes[2].content, 
+            2
+        );
     }
 
-    private createUIBar() {
-        // Create a semi-transparent black background for the UI bar
-        const uiBackground = this.add.rectangle(0, 0, this.cameras.main.width, 60, 0x000000, 0.7)
-            .setOrigin(0, 0);
+    // Helper function to create a card with text
+    private createCard(x: number, y: number, title: string, content: string, index: number) {
+        // Create a container to hold all card elements
+        const container = this.add.container(x, y);
 
-        // Add life points display (left side)
-        const heartIcon = this.add.image(20, 30, 'heart-icon')
-            .setScale(0.5);
-        const lifeText = this.add.text(50, 20, '100/100', {
+        // Add the card rectangle with border and light background
+        const cardSprite = this.add.rectangle(0, 0, gameOptions.cardWidth, gameOptions.cardHeight, 0xFFFFFF, 0.9)
+            .setScale(gameOptions.cardScale);
+
+        // Add title text with dark color
+        const titleText = this.add.text(0, -120, title, {
             fontSize: '24px',
-            color: '#ffffff'
+            color: '#000000',
+        }).setOrigin(0.5);
+
+        // Add content text with dark color
+        const contentText = this.add.text(0, -50, content, {
+            fontSize: '18px',
+            color: '#000000',
+            wordWrap: { width: gameOptions.cardWidth * 0.7 }
+        }).setOrigin(0.5);
+
+        // Add all elements to the container
+        container.add([cardSprite, titleText, contentText]);
+
+        // Make the container interactive
+        container.setSize(cardSprite.width * gameOptions.cardScale, cardSprite.height * gameOptions.cardScale);
+        container.setInteractive();
+
+        // Add hover effects
+        container.on('pointerover', () => {
+            this.tweens.add({
+                targets: container,
+                scaleX: 1.05,
+                scaleY: 1.05,
+                y: y - 10,
+                duration: 200,
+                ease: 'Power2'
+            });
         });
 
-        // Add buttons (right side)
-        const createButton = (x: number, text: string, callback: () => void) => {
-            const button = this.add.container(x, 30);
-            
-            const bg = this.add.rectangle(0, 0, 120, 40, 0x444444)
-                .setInteractive()
-                .on('pointerdown', callback)
-                .on('pointerover', () => bg.setFillStyle(0x666666))
-                .on('pointerout', () => bg.setFillStyle(0x444444));
-            
-            const buttonText = this.add.text(0, 0, text, {
-                fontSize: '16px',
-                color: '#ffffff'
-            }).setOrigin(0.5);
-            
-            button.add([bg, buttonText]);
-            return button;
-        };
-
-        // Create Deck button
-        const deckButton = createButton(this.cameras.main.width - 260, 'Deck', () => {
-            console.log('Open deck view');
-            // Add your deck view logic here
+        container.on('pointerout', () => {
+            this.tweens.add({
+                targets: container,
+                scaleX: 1,
+                scaleY: 1,
+                y: y,
+                duration: 200,
+                ease: 'Power2'
+            });
         });
 
-        // Create Path button
-        const pathButton = createButton(this.cameras.main.width - 130, 'Path', () => {
-            console.log('Open path view');
-            // Add your path view logic here
-        });
-    }
+        // Add click handler
+        container.on('pointerup', () => this.onHeroSelect(index));
+
+        return container;
+    };
 
     private async onHeroSelect(heroIndex: number) {
         // Send the selected hero to the server
@@ -129,10 +133,18 @@ export class SelectHero extends Scene {
             user_id: 1 // You'll need to get the actual user ID from your auth system
         });
         console.log(result);
-        
+
         // 保存英雄ID到游戏状态和localStorage
         localStorage.setItem('selectedHeroId', heroIndex.toString());
-        
+
         this.scene.start('SelectPath');
+    }
+
+    // 添加切换语言的方法
+    public setLanguage(language: Language) {
+        this.currentLang = language;
+        localStorage.setItem('language', language);
+        // 重新创建场景以更新文本
+        this.scene.restart();
     }
 } 
