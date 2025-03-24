@@ -3,29 +3,11 @@ import { lang, Language } from '../config/lang';
 import { UIBar } from '../components/UIBar';
 import window from '../config/window';
 import { CardFactory } from '../components/Card';
-import { cardOptions } from '../config/card';
 
 export class SelectHero extends Scene {
 
     constructor() {
         super({ key: 'SelectHero' });
-    }
-
-    preload() {
-        this.load.setPath('assets');
-        if (!this.registry.has('language')) {
-            this.registry.set('language', 'en');
-        }
-
-        // Add UI assets
-        this.load.image('button-bg', 'star.png');  // You'll need to add this asset
-        this.load.image('heart-icon', 'star.png'); // You'll need to add this asset
-
-        // loading the sprite sheet with all cards
-        this.load.spritesheet("cards", "cards.png", {
-            frameWidth: cardOptions.cardWidth,
-            frameHeight: cardOptions.cardHeight
-        });
     }
 
     create() {

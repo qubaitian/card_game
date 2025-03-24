@@ -1,7 +1,8 @@
-import { Game as MainGame } from './scenes/Game';
 import { SelectHero } from './scenes/SelectHero';
 import { Game, Types, Scale, AUTO } from 'phaser';
 import window from './config/window';
+import { Preloader } from './scenes/Preloader';
+import { MainGame } from './scenes/MainGame';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -15,6 +16,7 @@ const config: Types.Core.GameConfig = {
         autoCenter: Scale.CENTER_BOTH
     },
     scene: [
+        Preloader,  // 添加 Preloader 作为第一个场景
         MainGame,
         SelectHero,
     ]
