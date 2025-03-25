@@ -1,38 +1,7 @@
-1:
+201:
   tag:
-    - passive
-  en:
-    title: Swordman
-    content:
-    design:
-      - set the color card pool to red
-      - set the initial draw pile to 6 Strike, 5 Defend, 1 Bash
-  zh:
-    title: 剑士
-    content: 
-    design:
-      - 将颜色卡池限制为红色
-      - 将玩家起手卡组设置为6张打击, 5张防御, 1张痛击    
-2:
-  tag:
-    - color: red
-  en:
-    title: Bash
-    content: It deals {damage} damage and applies {vulnerable} Vulnerable. 
-  zh:
-    title: 痛击
-    content: 对目标造成{damage}点伤害, 给予{vulnerable}层易伤
-  level0:
-    damage: 8
-    vulnerable: 2
-    cost: 2
-  level1:
-    damage: 12
-    vulnerable: 3
-    cost: 2
-3:
-  tag:
-    - color: red
+    - red
+    - deck
   en:
     title: Strike
     content: It deals {damage} damage to the target.
@@ -45,9 +14,10 @@
   level1:
     damage: 9
     cost: 1
-4:
+202:
   tag:
-    - color: red
+    - red
+    - deck
   en:
     title: Defend
     content: It gains {shield} shield.
@@ -60,9 +30,28 @@
   level1:
     shield: 8
     cost: 1
-5:
+203:
   tag:
-    - color: red
+    - red
+    - deck
+  en:
+    title: Bash
+    content: It deals {damage} damage and applies {vulnerable} Vulnerable. 
+  zh:
+    title: 痛击
+    content: "对目标造成{damage}点伤害, 给予{vulnerable}层易伤"
+  level0:
+    damage: 8
+    vulnerable: 2
+    cost: 2
+  level1:
+    damage: 12
+    vulnerable: 3
+    cost: 2
+204:
+  tag:
+    - red
+    - deck
   en:
     title: Headbutt
     content: It deals {damage} damage to the target. choose a card from the discard pile, and return it to the draw pile top
@@ -75,9 +64,10 @@
   level1:
     damage: 2
     cost: 1
-6:
+205:
   tag:
-    - color: red
+    - red
+    - deck
   en:
     title: Swordbutt
     content: It deals {damage} damage to the target, and draws {draw} cards.

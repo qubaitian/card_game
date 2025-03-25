@@ -1,0 +1,51 @@
+101:
+  tag:
+    - event
+  en:
+    title: Ironclad
+    content: a
+    design:
+      - set the color card pool to red
+      - set the initial draw pile to 6 Strike, 5 Defend, 1 Bash
+  zh:
+    title: 铁卫
+    content: a
+    design:
+      - 将颜色卡池限制为红色
+      - 将玩家起手卡组设置为6张打击, 5张防御, 1张痛击
+  data:
+    - '[Strike#201, Strike#201, Strike#201, Strike#201, Strike#201, Strike#201, Defend#202, Defend#202, Defend#202, Defend#202, Defend#202, Bash#203]'
+102:
+  tag:
+    - event
+  en:
+    title: Silent
+    content: a
+    design:
+      - set the color card pool to green
+      - set the initial draw pile to 6 Strike, 5 Defend, 1 Neutralize, 1 Survivor
+  zh:
+    title: 猎人
+    content: a
+    design:
+      - 将颜色卡池限制为绿色
+      - 将玩家起手卡组设置为6张打击, 5张防御, 1张压制, 1张幸存者
+  # data:
+  #   - [Strike#301, Strike#301, Strike#301, Strike#301, Strike#301, Strike#301, Defend#302, Defend#302, Defend#302, Defend#302, Defend#302, Neutralize#303, Survivor#304]
+103:
+  tag:
+    - event
+  en:
+    title: Robot
+    content: a
+    design:
+      - set the color card pool to gray
+      - set the initial draw pile to 6 Strike, 5 Defend, 1 Dualcast, 1 Zap
+  zh:
+    title: 机器人
+    content: a
+    design:
+      - 将颜色卡池限制为灰色, 这里没有用杀戮尖塔里的蓝色，因为我想把天蓝色留给法师，蓝色留给萨满
+      - 将玩家起手卡组设置为6张打击, 5张防御, 1张双倍释放, 1张闪电
+  # data:
+  #   - [Strike#401, Strike#401, Strike#401, Strike#401, Strike#401, Strike#401, Defend#402, Defend#402, Defend#402, Defend#402, Defend#402, Dualcast#406, Zap#407]

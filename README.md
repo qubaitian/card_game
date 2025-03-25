@@ -19,8 +19,6 @@ if you want to run in the network, you should also set .env file like this:
 VITE_SERVER_API_BASE_URL=http://192.168.31.78:8000
 ```
 
-
-
 # design
 
 1. 游戏机制尽量通过卡牌实现  
@@ -53,6 +51,25 @@ VITE_SERVER_API_BASE_URL=http://192.168.31.78:8000
 
 6. 参与卡牌设计, 参照card_*.yaml文件格式
     
-    
-
-    
+7. 卡牌设计，卡牌氛围两种，一种是事件卡，用于记录事件并生效，一种是重复使用卡，用于构建卡组
+    1. event
+        1. tag：
+            1. 职业卡
+            2. 遗物卡
+            3. 事件卡
+        2. 生效时机 trigger
+            1. 选择时
+            2. 战斗开始
+            3. 战斗结束
+            4. 回合开始时
+            5. 回合结束时
+            6. 抽牌时
+            7. 弃牌时
+            8. 死亡时
+    2. useable deck 卡组
+        1. 区域
+            1. draw 抽牌
+            2. hand 手牌
+            3. power 能力牌区
+            4. discard 弃牌
+            5. consume 消耗
