@@ -5,7 +5,7 @@ import { cardOptions } from '../config/card';
 interface Player {
     health: number;
     PermanentCards: CardData[];
-    drawPile: CardData[];
+    drawPile: Map<number, CardData>;
     handCards: Map<number, CardData>;
     discardCardsMap: Map<number, CardData>;
     consumedCardsMap: Map<number, CardData>;
@@ -54,7 +54,7 @@ export const headbutt_data : CardData = {
 export const headbutt : Card = {
     ...headbutt_data,
     choose_effect: (source: Player, target: Player) => {
-        source.drawPile.push(headbutt_data);
+        source.drawPile.set(source.drawPile.size + 1, headbutt_data);
     },
     play_effect: (source: Player, target: Player, discard_card_index: integer[]) => {
         target.health -= 1;
@@ -63,7 +63,7 @@ export const headbutt : Card = {
         const selectedCard = source.discardCardsMap.get(discard_card_index[0]);
         if (selectedCard) {
             // Add to draw pile
-            source.drawPile.unshift(selectedCard); // Use unshift to add to the top of draw pile
+            source.drawPile.set(source.drawPile.size + 1, selectedCard); // Use unshift to add to the top of draw pile
 
             // Remove from discard cards map
             source.discardCardsMap.delete(discard_card_index[0]);
