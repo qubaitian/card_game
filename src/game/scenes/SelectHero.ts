@@ -2,7 +2,8 @@ import { Scene } from 'phaser';
 import { lang, Language } from '../config/lang';
 import { UIBar } from '../components/UIBar';
 import window from '../config/window';
-import { CardFactory } from '../components/Card';
+import { CardFactory, headbutt } from '../components/Card';
+import { api } from '../common';
 
 export class SelectHero extends Scene {
 
@@ -21,28 +22,40 @@ export class SelectHero extends Scene {
         cardFactory.createCard(
             window.width / 4,
             window.height / 2,
-            {
-                id: 1,
-                title: texts.heroes[0].title,
-                content: texts.heroes[0].content,
+            headbutt,
+            async (id: number) => {
+                // Send the selected hero to the server
+                const result = await api.heroSelectHeroSelectPost({
+                    hero_id: id,
+                    user_id: 1 // You'll need to get the actual user ID from your auth system
+                });
+                console.log(result);
             }
         );
         cardFactory.createCard(
             window.width * 2 / 4,
             window.height / 2,
-            {
-                id: 2,
-                title: texts.heroes[1].title,
-                content: texts.heroes[1].content,
+            headbutt,
+            async (id: number) => {
+                // Send the selected hero to the server
+                const result = await api.heroSelectHeroSelectPost({
+                    hero_id: id,
+                    user_id: 1 // You'll need to get the actual user ID from your auth system
+                });
+                console.log(result);
             }
         );
         cardFactory.createCard(
             window.width * 3 / 4,
             window.height / 2,
-            {
-                id: 3,
-                title: texts.heroes[2].title,
-                content: texts.heroes[2].content,
+            headbutt,
+            async (id: number) => {
+                // Send the selected hero to the server
+                const result = await api.heroSelectHeroSelectPost({
+                    hero_id: id,
+                    user_id: 1 // You'll need to get the actual user ID from your auth system
+                });
+                console.log(result);
             }
         );
     }

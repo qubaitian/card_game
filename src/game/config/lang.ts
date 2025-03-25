@@ -4,6 +4,13 @@ interface HeroDescription {
 }
 
 interface GameText {
+    cards: {
+        [key: number]: {
+            id: number;
+            title: string;
+            content: string;
+        }
+    };
     heroes: {
         [key: number]: HeroDescription;
     };
@@ -15,6 +22,23 @@ interface GameText {
 }
 
 const en: GameText = {
+    cards: {
+        0: {
+            id: 0,
+            title: "Warrior",
+            content: "A mighty fighter\nwith great strength"
+        },
+        1: {
+            id: 1,
+            title: "Mage",
+            content: "Master of arcane\nand magical arts"
+        },
+        2: {
+            id: 2,
+            title: "Rogue",
+            content: "Swift and stealthy\nassassin"
+        }
+    },
     heroes: {
         0: {
             title: "Warrior",
@@ -37,6 +61,23 @@ const en: GameText = {
 };
 
 const zh: GameText = {
+    cards: {
+        0: {
+            id: 0,
+            title: "战士",
+            content: "强大的战士\n具有超凡的力量"
+        },
+        1: {
+            id: 1,
+            title: "法师",
+            content: "精通奥术\n掌握魔法技艺"
+        },
+        2: {
+            id: 2,
+            title: "盗贼",
+            content: "敏捷隐秘\n的刺客大师"
+        }
+    },
     heroes: {
         0: {
             title: "战士",
