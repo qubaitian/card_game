@@ -29,12 +29,16 @@ class Card(BaseModel):
 class Card_101(Card):
     def when_pick(self, player: Player):
         player.color = "red"
-        player.deck = [] + "Strike#201" * 16 + "Defend#202" * 12 + "Bash#203" * 2
-
+        player.deck = (
+            []
+            + "Strike#201" * 16
+            + "Defend#202" * 12
+            + "Bash#203" * 2
+        )
 
 class Card_102(Card):
     def when_pick(self, player: Player):
-        player.color = "blue"
+        player.color = "green"
         player.deck = (
             []
             + "Strike#301" * 16
@@ -43,10 +47,9 @@ class Card_102(Card):
             + "Survivor#304" * 2
         )
 
-
 class Card_103(Card):
     def when_pick(self, player: Player):
-        player.color = "green"
+        player.color = "gray"
         player.deck = (
             []
             + "Strike#401" * 12
