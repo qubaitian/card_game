@@ -1,4 +1,5 @@
 Strike_301:
+  id: Strike_301
   tag:
     - green
     - deck
@@ -15,6 +16,7 @@ Strike_301:
     damage: 9
     cost: 1
 Defend_302:
+  id: Defend_302
   tag:
     - green
     - deck
@@ -31,6 +33,7 @@ Defend_302:
     shield: 8
     cost: 1
 Bash_303:
+  id: Bash_303
   tag:
     - green
     - deck
@@ -49,6 +52,7 @@ Bash_303:
     vulnerable: 3
     cost: 2
 Neutralize_304:
+  id: Neutralize_304
   tag:
     - green
     - deck
