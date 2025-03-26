@@ -13,8 +13,6 @@
     design:
       - 将颜色卡池限制为红色
       - 将玩家起手卡组设置为6张打击, 5张防御, 1张痛击
-  data:
-    - '[Strike#201, Strike#201, Strike#201, Strike#201, Strike#201, Strike#201, Defend#202, Defend#202, Defend#202, Defend#202, Defend#202, Bash#203]'
 102:
   tag:
     - event
@@ -30,8 +28,6 @@
     design:
       - 将颜色卡池限制为绿色
       - 将玩家起手卡组设置为6张打击, 5张防御, 1张压制, 1张幸存者
-  # data:
-  #   - [Strike#301, Strike#301, Strike#301, Strike#301, Strike#301, Strike#301, Defend#302, Defend#302, Defend#302, Defend#302, Defend#302, Neutralize#303, Survivor#304]
 103:
   tag:
     - event
@@ -47,5 +43,3 @@
     design:
       - 将颜色卡池限制为灰色, 这里没有用杀戮尖塔里的蓝色，因为我想把天蓝色留给法师，蓝色留给萨满
       - 将玩家起手卡组设置为6张打击, 5张防御, 1张双倍释放, 1张闪电
-  # data:
-  #   - [Strike#401, Strike#401, Strike#401, Strike#401, Strike#401, Strike#401, Defend#402, Defend#402, Defend#402, Defend#402, Defend#402, Dualcast#406, Zap#407]
