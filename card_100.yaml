@@ -1,4 +1,4 @@
-101:
+Ironclad_101:
   tag:
     - event
   en:
@@ -13,7 +13,7 @@
     design:
       - 将颜色卡池限制为红色
       - 将玩家起手卡组设置为16张打击, 12张防御, 2张痛击
-102:
+Silent_102:
   tag:
     - event
   en:
@@ -28,11 +28,12 @@
     design:
       - 将颜色卡池限制为绿色
       - 将玩家起手卡组设置为16张打击, 10张防御, 2张压制, 2张幸存者
-103:
+
+Defect_103:
   tag:
     - event
   en:
-    title: Robot
+    title: Defect
     content: a
     design:
       - set the color card pool to gray

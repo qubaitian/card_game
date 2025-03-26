@@ -1,4 +1,4 @@
-301:
+Strike_301:
   tag:
     - green
     - deck
@@ -14,7 +14,7 @@
   level1:
     damage: 9
     cost: 1
-302:
+Defend_302:
   tag:
     - green
     - deck
@@ -30,7 +30,7 @@
   level1:
     shield: 8
     cost: 1
-303:
+Bash_303:
   tag:
     - green
     - deck
@@ -48,7 +48,7 @@
     damage: 12
     vulnerable: 3
     cost: 2
-304:
+Neutralize_304:
   tag:
     - green
     - deck
@@ -64,21 +64,4 @@
   level1:
     damage: 2
     cost: 1
-305:
-  tag:
-    - green
-    - deck
-  en:
-    title: Swordbutt
-    content: It deals {damage} damage to the target, and draws {draw} cards.
-  zh:
-    title: 剑柄打击
-    content: 对目标造成{damage}点伤害, 抽取{draw}张牌
-  level0:
-    damage: 6
-    draw: 1
-    cost: 1
-  level1:
-    damage: 9
-    draw: 2
-    cost: 1
+

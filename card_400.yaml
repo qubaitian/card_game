@@ -1,4 +1,4 @@
-401:
+Strike_401:
   tag:
     - red
     - deck
@@ -14,7 +14,7 @@
   level1:
     damage: 9
     cost: 1
-402:
+Defend_402:
   tag:
     - red
     - deck
@@ -30,55 +30,33 @@
   level1:
     shield: 8
     cost: 1
-403:
+Dualcast_403:
   tag:
-    - red
+    - green
     - deck
   en:
-    title: Bash
-    content: It deals {damage} damage and applies {vulnerable} Vulnerable. 
+    title: Dualcast
+    content: Evoke your next Orb twice.
   zh:
-    title: 痛击
-    content: "对目标造成{damage}点伤害, 给予{vulnerable}层易伤"
+    title: 双倍释放
+    content: 激发你最右侧的充能球2次
   level0:
-    damage: 8
-    vulnerable: 2
-    cost: 2
+    cost: 1
   level1:
-    damage: 12
-    vulnerable: 3
-    cost: 2
-404:
+    cost: 0
+Zap_404:
   tag:
-    - red
+    - green
     - deck
   en:
-    title: Headbutt
-    content: It deals {damage} damage to the target. choose a card from the discard pile, and return it to the draw pile top
+    title: Zap
+    content: Channel {lightning} Lightning
   zh:
-    title: 头槌
-    content: 对目标造成{damage}点伤害, 选择弃牌堆的一张牌,返回抽牌堆顶
+    title: 电击
+    content: 生成 {lightning} 闪电充能球
   level0:
-    damage: 1
+    lightning: 1
     cost: 1
   level1:
-    damage: 2
-    cost: 1
-405:
-  tag:
-    - red
-    - deck
-  en:
-    title: Swordbutt
-    content: It deals {damage} damage to the target, and draws {draw} cards.
-  zh:
-    title: 剑柄打击
-    content: 对目标造成{damage}点伤害, 抽取{draw}张牌
-  level0:
-    damage: 6
-    draw: 1
-    cost: 1
-  level1:
-    damage: 9
-    draw: 2
-    cost: 1
+    lightning: 1
+    cost: 0

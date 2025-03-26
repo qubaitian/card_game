@@ -1,4 +1,4 @@
-201:
+Strike_201:
   tag:
     - red
     - deck
@@ -14,7 +14,7 @@
   level1:
     damage: 9
     cost: 1
-202:
+Defend_202:
   tag:
     - red
     - deck
@@ -30,7 +30,7 @@
   level1:
     shield: 8
     cost: 1
-203:
+Bash_203:
   tag:
     - red
     - deck
@@ -48,7 +48,7 @@
     damage: 12
     vulnerable: 3
     cost: 2
-204:
+Headbutt_204:
   tag:
     - red
     - deck
@@ -64,12 +64,12 @@
   level1:
     damage: 2
     cost: 1
-205:
+PommelStrike_205:
   tag:
     - red
     - deck
   en:
-    title: Swordbutt
+    title: PommelStrike
     content: It deals {damage} damage to the target, and draws {draw} cards.
   zh:
     title: 剑柄打击
