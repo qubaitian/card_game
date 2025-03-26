@@ -58,4 +58,4 @@ if __name__ == "__main__":
     print(card_map["Ironclad_101"])
     player = Player()   
     card_map["Ironclad_101"].when_pick(player)
-    print(player.deck)
+    print(player)

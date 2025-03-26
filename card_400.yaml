@@ -9,12 +9,11 @@ Strike_401:
   zh:
     title: 打击
     content: 对目标造成{damage}点伤害
-  level0:
-    damage: 6
-    cost: 1
-  level1:
-    damage: 9
-    cost: 1
+  level_data:
+    - damage: 6
+      cost: 1
+    - damage: 9
+      cost: 1
 Defend_402:
   id: Defend_402
   tag:
@@ -26,12 +25,11 @@ Defend_402:
   zh:
     title: 防御
     content: 获得{shield}点护盾
-  level0:
-    shield: 5
-    cost: 1
-  level1:
-    shield: 8
-    cost: 1
+  level_data:
+    - shield: 5
+      cost: 1
+    - shield: 8
+      cost: 1
 Dualcast_403:
   id: Dualcast_403
   tag:
@@ -43,10 +41,9 @@ Dualcast_403:
   zh:
     title: 双倍释放
     content: 激发你最右侧的充能球2次
-  level0:
-    cost: 1
-  level1:
-    cost: 0
+  level_data:
+    - cost: 1
+    - cost: 0
 Zap_404:
   id: Zap_404
   tag:
@@ -58,9 +55,8 @@ Zap_404:
   zh:
     title: 电击
     content: 生成 {lightning} 闪电充能球
-  level0:
-    lightning: 1
-    cost: 1
-  level1:
-    lightning: 1
-    cost: 0
+  level_data:
+    - lightning: 1
+      cost: 1
+    - lightning: 1
+      cost: 0

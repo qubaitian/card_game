@@ -9,12 +9,11 @@ Strike_301:
   zh:
     title: 打击
     content: 对目标造成{damage}点伤害
-  level0:
-    damage: 6
-    cost: 1
-  level1:
-    damage: 9
-    cost: 1
+  level_data:
+    - damage: 6
+      cost: 1
+    - damage: 9
+      cost: 1
 Defend_302:
   id: Defend_302
   tag:
@@ -26,12 +25,11 @@ Defend_302:
   zh:
     title: 防御
     content: 获得{shield}点护盾
-  level0:
-    shield: 5
-    cost: 1
-  level1:
-    shield: 8
-    cost: 1
+  level_data:
+    - shield: 5
+      cost: 1
+    - shield: 8
+      cost: 1
 Bash_303:
   id: Bash_303
   tag:
@@ -43,14 +41,13 @@ Bash_303:
   zh:
     title: 痛击
     content: "对目标造成{damage}点伤害, 给予{vulnerable}层易伤"
-  level0:
-    damage: 8
-    vulnerable: 2
-    cost: 2
-  level1:
-    damage: 12
-    vulnerable: 3
-    cost: 2
+  level_data:
+    - damage: 8
+      vulnerable: 2
+      cost: 2
+    - damage: 12
+      vulnerable: 3
+      cost: 2
 Neutralize_304:
   id: Neutralize_304
   tag:
@@ -62,10 +59,9 @@ Neutralize_304:
   zh:
     title: 头槌
     content: 对目标造成{damage}点伤害, 选择弃牌堆的一张牌,返回抽牌堆顶
-  level0:
-    damage: 1
-    cost: 1
-  level1:
-    damage: 2
-    cost: 1
+  level_data:
+    - damage: 1
+      cost: 1
+    - damage: 2
+      cost: 1
 
