@@ -43,16 +43,10 @@ export interface Card {
     'tag': Array<string>;
     /**
      * 
-     * @type {CardText}
+     * @type {{ [key: string]: CardText; }}
      * @memberof Card
      */
-    'en': CardText;
-    /**
-     * 
-     * @type {CardText}
-     * @memberof Card
-     */
-    'zh': CardText;
+    'text': { [key: string]: CardText; };
     /**
      * 
      * @type {number}
@@ -259,12 +253,12 @@ export const CardApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
-         * @summary Card
+         * @summary Get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cardApiCardPost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/card/`;
+        getCardCardMapGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/card/card_map`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -272,7 +266,7 @@ export const CardApiAxiosParamCreator = function (configuration?: Configuration)
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -299,14 +293,14 @@ export const CardApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Card
+         * @summary Get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cardApiCardPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Card; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cardApiCardPost(options);
+        async getCardCardMapGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: { [key: string]: Card; }; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCardCardMapGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CardApi.cardApiCardPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['CardApi.getCardCardMapGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -321,12 +315,12 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
-         * @summary Card
+         * @summary Get
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cardApiCardPost(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Card; }> {
-            return localVarFp.cardApiCardPost(options).then((request) => request(axios, basePath));
+        getCardCardMapGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: { [key: string]: Card; }; }> {
+            return localVarFp.getCardCardMapGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -340,13 +334,13 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
 export class CardApi extends BaseAPI {
     /**
      * 
-     * @summary Card
+     * @summary Get
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CardApi
      */
-    public cardApiCardPost(options?: RawAxiosRequestConfig) {
-        return CardApiFp(this.configuration).cardApiCardPost(options).then((request) => request(this.axios, this.basePath));
+    public getCardCardMapGet(options?: RawAxiosRequestConfig) {
+        return CardApiFp(this.configuration).getCardCardMapGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -519,6 +513,107 @@ export class DefaultApi extends BaseAPI {
      */
     public loginLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).loginLoginPost(loginRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * GameApi - axios parameter creator
+ * @export
+ */
+export const GameApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Hero List
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        heroListGameSTSHeroListGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/game/STS/hero/list`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GameApi - functional programming interface
+ * @export
+ */
+export const GameApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GameApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Hero List
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Card>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.heroListGameSTSHeroListGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['GameApi.heroListGameSTSHeroListGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * GameApi - factory interface
+ * @export
+ */
+export const GameApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GameApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Hero List
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Card>> {
+            return localVarFp.heroListGameSTSHeroListGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * GameApi - object-oriented interface
+ * @export
+ * @class GameApi
+ * @extends {BaseAPI}
+ */
+export class GameApi extends BaseAPI {
+    /**
+     * 
+     * @summary Hero List
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GameApi
+     */
+    public heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig) {
+        return GameApiFp(this.configuration).heroListGameSTSHeroListGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

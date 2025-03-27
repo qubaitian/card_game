@@ -23,8 +23,7 @@ class CardData(BaseModel):
 class Card(BaseModel):
     id: str
     tag: list[str]
-    en: CardText
-    zh: CardText
+    text: dict[str, CardText]
     level: int = 0
     level_data: list[CardData] = []
     data: Optional[list[str]] = None

@@ -6,7 +6,8 @@ import { SelectMode } from './scenes/SelectMode';
 import { Continue } from './scenes/Continue';
 import { SelectNeon } from './scenes/SelectNeon';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
-import { STSSelectHero } from './scenes/StSSelectHero';
+import { STSSelectHero } from './scenes/STSSelectHero';
+
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
