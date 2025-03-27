@@ -14,8 +14,8 @@ export class SelectMode extends Scene {
             this.scene.start('Continue');
         });
 
-        new Button(this, window_config.width * 5 / 10, window_config.height * 4 / 10, window_config.width / 4, window_config.height / 20, 'slay the spire a20', () => {
-            this.scene.start('SelectNeon');
+        new Button(this, window_config.width * 5 / 10, window_config.height * 4 / 10, window_config.width / 4, window_config.height / 20, 'slay the spire', () => {
+            this.scene.start('STSSelectHero');
         });
 
         new Button(this, window_config.width * 5 / 10, window_config.height * 5 / 10, window_config.width / 4, window_config.height / 20, 'test pve', () => {

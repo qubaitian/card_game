@@ -6,10 +6,12 @@ import time
 from nacl.public import PrivateKey, Box
 import nacl
 import base64
-from server.api.hero import router as hero_router
 
 from server.api.keypair import router as keypair_router
 from server.api.card import router as card_router
+from server.api.hero import router as hero_router
+from server.api.game import router as game_router
+
 from server.po.db import ServerKey, User, session
 
 
@@ -117,6 +119,7 @@ async def verify_token_middleware(request: Request, call_next):
 
     # Convert bytes to PublicKey object
     client_public_key = nacl.public.PublicKey(bytes.fromhex(public_key))
+    request.state.public_key = public_key
     server_box = Box(skserver, client_public_key)
     plaintext = server_box.decrypt(signature_bytes)
     print(plaintext)
@@ -131,9 +134,10 @@ async def verify_token_middleware(request: Request, call_next):
 
 # Include the hero router
 app.include_router(hero_router, prefix="/api/hero", tags=["hero"])
-app.include_router(card_router, prefix="/api/card", tags=["card"])
+app.include_router(card_router, prefix="/card", tags=["card"])
+app.include_router(game_router, prefix="/game", tags=["game"])
 app.include_router(keypair_router, tags=["keypair"])
-app.middleware("http")(verify_token_middleware)
+# app.middleware("http")(verify_token_middleware)
 
 # Add exception handlers before running the app
 @app.exception_handler(HTTPException)

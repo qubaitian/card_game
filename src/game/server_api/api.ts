@@ -26,6 +26,99 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface Card
+ */
+export interface Card {
+    /**
+     * 
+     * @type {string}
+     * @memberof Card
+     */
+    'id': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Card
+     */
+    'tag': Array<string>;
+    /**
+     * 
+     * @type {CardText}
+     * @memberof Card
+     */
+    'en': CardText;
+    /**
+     * 
+     * @type {CardText}
+     * @memberof Card
+     */
+    'zh': CardText;
+    /**
+     * 
+     * @type {number}
+     * @memberof Card
+     */
+    'level'?: number;
+    /**
+     * 
+     * @type {Array<CardData>}
+     * @memberof Card
+     */
+    'level_data'?: Array<CardData>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Card
+     */
+    'data'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface CardData
+ */
+export interface CardData {
+    /**
+     * 
+     * @type {number}
+     * @memberof CardData
+     */
+    'damage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CardData
+     */
+    'vulnerable'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CardData
+     */
+    'draw'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CardText
+ */
+export interface CardText {
+    /**
+     * 
+     * @type {string}
+     * @memberof CardText
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CardText
+     */
+    'content': string;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -157,6 +250,107 @@ export interface ValidationError {
  */
 export interface ValidationErrorLocInner {
 }
+
+/**
+ * CardApi - axios parameter creator
+ * @export
+ */
+export const CardApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Card
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cardApiCardPost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/card/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CardApi - functional programming interface
+ * @export
+ */
+export const CardApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CardApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Card
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cardApiCardPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Card; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cardApiCardPost(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CardApi.cardApiCardPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CardApi - factory interface
+ * @export
+ */
+export const CardApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CardApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Card
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cardApiCardPost(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Card; }> {
+            return localVarFp.cardApiCardPost(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CardApi - object-oriented interface
+ * @export
+ * @class CardApi
+ * @extends {BaseAPI}
+ */
+export class CardApi extends BaseAPI {
+    /**
+     * 
+     * @summary Card
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CardApi
+     */
+    public cardApiCardPost(options?: RawAxiosRequestConfig) {
+        return CardApiFp(this.configuration).cardApiCardPost(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * DefaultApi - axios parameter creator
