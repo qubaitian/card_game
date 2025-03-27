@@ -55,12 +55,40 @@ def get_users() -> list[UserResponse]:
     return users
 
 
-@app.get("/login")
-def login(public_key: str):
-    global login_user
-    login_time = time.time()
-    login_user[public_key] = login_time
-    return {"login_time": login_time}
+class LoginRequest(BaseModel):
+    private_key: str
+
+class LoginResponse(BaseModel):
+    access_token: str
+
+
+@app.post("/login")
+def login(request: LoginRequest) -> LoginResponse:
+    global pkserver
+    global skserver
+    private_key = PrivateKey(bytes.fromhex(request.private_key))
+    public_key = private_key.public_key
+
+    box = Box(private_key, pkserver)
+
+    login_time = int(time.time())
+    message = str(login_time).encode()
+    encrypted = box.encrypt(
+        message
+    )  # This includes nonce and other data needed for decryption
+
+    access_token = (
+        public_key.encode().hex() + "." + base64.b64encode(encrypted).decode()
+    )  # Use base64 encoding
+
+    # save to db
+    user = User(public_key=public_key.encode().hex(), login_time=login_time)
+    session.add(user)
+    session.commit()
+
+    return {
+        "access_token": access_token,
+    }
 
 
 async def verify_token_middleware(request: Request, call_next):

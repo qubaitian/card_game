@@ -28,15 +28,15 @@ class Card implements CardData {
             content: string;
         }
     }
-    choose_effect: (player: Player, target: Player) => void = () => {};
-    play_effect: (player: Player, target: Player, discard_card_index: number[]) => void = () => {};
-    after_battle_effect: (player: Player, target: Player) => void = () => {};
-    before_battle_effect: (player: Player, target: Player) => void = () => {};
-    after_turn_effect: (player: Player, target: Player) => void = () => {};
-    before_turn_effect: (player: Player, target: Player) => void = () => {};
+    choose_effect: (player: Player, target: Player) => void = () => { };
+    play_effect: (player: Player, target: Player, discard_card_index: number[]) => void = () => { };
+    after_battle_effect: (player: Player, target: Player) => void = () => { };
+    before_battle_effect: (player: Player, target: Player) => void = () => { };
+    after_turn_effect: (player: Player, target: Player) => void = () => { };
+    before_turn_effect: (player: Player, target: Player) => void = () => { };
 }
 
-export const headbutt_data : CardData = {
+export const headbutt_data: CardData = {
     id: 0,
     text: {
         "zh": {
@@ -50,7 +50,7 @@ export const headbutt_data : CardData = {
     }
 }
 
-export const headbutt : Card = {
+export const headbutt: Card = {
     ...headbutt_data,
     choose_effect: (source: Player, target: Player) => {
         source.drawPile.set(source.drawPile.size + 1, headbutt_data);
@@ -81,69 +81,62 @@ export const headbutt : Card = {
         throw new Error('Function not implemented.');
     }
 }
-export class CardFactory {
-    private scene: Scene;
 
-    constructor(scene: Scene) {
-        this.scene = scene;
-    }
+export function createCard(scene: Scene, x: number, y: number, card: Card, onPointerUp: (id: number) => void) {
+    // Create a container to hold all card elements
+    const container = scene.add.container(x, y);
 
-    public createCard(x: number, y: number, card: Card, onPointerUp: (id: number) => void) {
-        // Create a container to hold all card elements
-        const container = this.scene.add.container(x, y);
+    // Add the card rectangle with border and light background
+    const cardSprite = scene.add.rectangle(0, 0, cardOptions.cardWidth, cardOptions.cardHeight, 0xFFFFFF, 0.9);
 
-        // Add the card rectangle with border and light background
-        const cardSprite = this.scene.add.rectangle(0, 0, cardOptions.cardWidth, cardOptions.cardHeight, 0xFFFFFF, 0.9);
+    // Add title text with dark color
+    const titleText = scene.add.text(0, -120, card.text[scene.registry.get('language')].title, {
+        fontSize: '24px',
+        color: '#000000',
+    }).setOrigin(0.5);
 
-        // Add title text with dark color
-        const titleText = this.scene.add.text(0, -120, card.text[this.scene.registry.get('language')].title, {
-            fontSize: '24px',
-            color: '#000000',
-        }).setOrigin(0.5);
+    // Add content text with dark color
+    const contentText = scene.add.text(0, -50, card.text[scene.registry.get('language')].content, {
+        fontSize: '18px',
+        color: '#000000',
+        wordWrap: { width: cardOptions.cardWidth * 0.7 }
+    }).setOrigin(0.5);
 
-        // Add content text with dark color
-        const contentText = this.scene.add.text(0, -50, card.text[this.scene.registry.get('language')].content, {
-            fontSize: '18px',
-            color: '#000000',
-            wordWrap: { width: cardOptions.cardWidth * 0.7 }
-        }).setOrigin(0.5);
+    // Add all elements to the container
+    container.add([cardSprite, titleText, contentText]);
 
-        // Add all elements to the container
-        container.add([cardSprite, titleText, contentText]);
+    // Make the container interactive
+    container.setSize(cardSprite.width, cardSprite.height);
+    container.setInteractive();
 
-        // Make the container interactive
-        container.setSize(cardSprite.width, cardSprite.height);
-        container.setInteractive();
-
-        // Add hover effects
-        container.on('pointerover', () => {
-            this.scene.tweens.add({
-                targets: container,
-                scaleX: 1.05,
-                scaleY: 1.05,
-                y: y - 10,
-                duration: 200,
-                ease: 'Power2'
-            });
+    // Add hover effects
+    container.on('pointerover', () => {
+        scene.tweens.add({
+            targets: container,
+            scaleX: 1.05,
+            scaleY: 1.05,
+            y: y - 10,
+            duration: 200,
+            ease: 'Power2'
         });
+    });
 
-        container.on('pointerout', () => {
-            this.scene.tweens.add({
-                targets: container,
-                scaleX: 1,
-                scaleY: 1,
-                y: y,
-                duration: 200,
-                ease: 'Power2'
-            });
+    container.on('pointerout', () => {
+        scene.tweens.add({
+            targets: container,
+            scaleX: 1,
+            scaleY: 1,
+            y: y,
+            duration: 200,
+            ease: 'Power2'
         });
+    });
 
-        // Add click handler
-        container.on('pointerup', async () => {
-            onPointerUp(card.id);
-        });
+    // Add click handler
+    container.on('pointerup', async () => {
+        onPointerUp(card.id);
+    });
 
-        return card.id;
-    }
+    return card.id;
+}
 
-} 
