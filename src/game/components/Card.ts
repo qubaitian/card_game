@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { cardOptions } from '../config/card';
+import window_config from '../config/window_config';
 
 interface Player {
     health: number;
@@ -87,7 +88,7 @@ export function createCard(scene: Scene, x: number, y: number, card: Card, onPoi
     const container = scene.add.container(x, y);
 
     // Add the card rectangle with border and light background
-    const cardSprite = scene.add.rectangle(0, 0, cardOptions.cardWidth, cardOptions.cardHeight, 0xFFFFFF, 0.9);
+    const cardSprite = scene.add.rectangle(0, 0, window_config.width / 11, window_config.height / 4, 0xFFFFFF, 0.9);
 
     // Add title text with dark color
     const titleText = scene.add.text(0, -120, card.text[scene.registry.get('language')].title, {

@@ -2,24 +2,17 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import time
 from nacl.public import PrivateKey, Box
 import nacl
 import base64
-from api.hero import router as hero_router
-from models import ServerKey, User
-from api.keypair import router as keypair_router
-# Add these lines after imports
-engine = create_engine("sqlite:///example.db")
+from server.api.hero import router as hero_router
 
-Session = sessionmaker(bind=engine)
-session = Session()
+from server.api.keypair import router as keypair_router
+from server.api.card import router as card_router
+from server.po.db import ServerKey, User, session
 
-server_key = session.query(ServerKey).first()
-Session = sessionmaker(bind=engine)
-session = Session()
+
 server_key = session.query(ServerKey).first()
 if not server_key:
     private_key = "2ff44da770473f99a51f9413cadc0b369088422f15529566782d7dba00b523ce"
@@ -38,7 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 class UserResponse(BaseModel):
     id: int
@@ -139,6 +131,7 @@ async def verify_token_middleware(request: Request, call_next):
 
 # Include the hero router
 app.include_router(hero_router, prefix="/api/hero", tags=["hero"])
+app.include_router(card_router, prefix="/api/card", tags=["card"])
 app.include_router(keypair_router, tags=["keypair"])
 app.middleware("http")(verify_token_middleware)
 

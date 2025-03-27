@@ -1,4 +1,4 @@
-from model import Card, Player, Color
+from server.model.Card import Card
 
 class Strike_201(Card):
     pass

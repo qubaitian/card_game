@@ -1,4 +1,6 @@
-from model import Card, Player, Color
+from server.model.Card import Card
+from server.model.Player import Player
+from server.model.Color import Color
 
 class Ironclad_101(Card):
     def when_pick(self, player: Player):
