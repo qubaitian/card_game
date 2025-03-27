@@ -1,8 +1,9 @@
 import { SelectHero } from './scenes/SelectHero';
 import { Game, Types, Scale, AUTO } from 'phaser';
-import window from './config/window';
+import window_config from './config/window_config';
 import { Preloader } from './scenes/Preloader';
-import { MainGame } from './scenes/MainGame';
+import { Login } from './scenes/Login';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -11,15 +12,28 @@ const config: Types.Core.GameConfig = {
     scale: {
         mode: Scale.FIT,
         parent: 'game-container',
-        width: window.width,
-        height: window.height,
+        width: window_config.width,
+        height: window_config.height,
         autoCenter: Scale.CENTER_BOTH
     },
     scene: [
         Preloader,  // 添加 Preloader 作为第一个场景
-        MainGame,
+        Login,
         SelectHero,
-    ]
+    ],
+    parent: 'phaser-container',
+	dom: {
+        createContainer: true
+    },
+	plugins: {
+		scene: [
+			{
+				key: 'rexUI',
+				plugin: RexUIPlugin,
+				mapping: 'rexUI'
+			}
+		]
+    }
 };
 
 const StartGame = (parent: HTMLElement) => {

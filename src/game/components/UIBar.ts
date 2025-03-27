@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { Language } from '../config/lang';
-import window from '../config/window';
+import window_config from '../config/window_config';
 
 export class UIBar {
     private scene: Scene;
@@ -12,20 +12,20 @@ export class UIBar {
 
     private create() {
         // Create a semi-transparent black background for the UI bar
-        const ui_background = this.scene.add.rectangle(0, 100, window.width, 60, 0x000000, 0.7)
+        const ui_background = this.scene.add.rectangle(0, 100, window_config.width, 60, 0x000000, 0.7)
             .setOrigin(0, 0);
 
         // Add life points display (left side)
-        const heart_icon = this.scene.add.image(window.width * 1 / 20, window.height * 1 / 11, 'heart-icon')
+        const heart_icon = this.scene.add.image(window_config.width * 1 / 20, window_config.height * 1 / 11, 'heart-icon')
             .setScale(0.5);
-        const life_text = this.scene.add.text(window.width * 1 / 20 + 15, window.height * 1 / 11, '100/100', {
+        const life_text = this.scene.add.text(window_config.width * 1 / 20 + 15, window_config.height * 1 / 11, '100/100', {
             fontSize: '24px',
             color: '#ffffff'
         }).setOrigin(0, 0.5);
 
         // Add buttons (right side)
         const createButton = (x: number, text: string, callback: () => void) => {
-            const button = this.scene.add.container(x, window.height * 1 / 10);
+            const button = this.scene.add.container(x, window_config.height * 1 / 10);
 
             const bg = this.scene.add.rectangle(0, 0, 120, 80, 0x444444)
                 .setInteractive()
@@ -43,26 +43,26 @@ export class UIBar {
         };
         if (this.scene.registry.has('hero_id')) {
             // Create Deck button
-            createButton(window.width * 7 / 10, 'Deck', () => {
+            createButton(window_config.width * 7 / 10, 'Deck', () => {
                 // Create a semi-transparent black overlay
-                const overlay = this.scene.add.rectangle(0, 0, window.width, window.height, 0x000000, 0.8)
+                const overlay = this.scene.add.rectangle(0, 0, window_config.width, window_config.height, 0x000000, 0.8)
                     .setOrigin(0, 0)
                     .setInteractive()
                     .setDepth(100);
 
                 // Create a mask for the card container
                 const maskShape = this.scene.add.rectangle(
-                    window.width / 2,
-                    window.height / 2,
-                    window.width * 0.7,
-                    window.height * 0.7,
+                    window_config.width / 2,
+                    window_config.height / 2,
+                    window_config.width * 0.7,
+                    window_config.height * 0.7,
                     0xffffff
                 );
                 maskShape.setVisible(false);
                 const mask = maskShape.createGeometryMask();
 
                 // Create a container for cards
-                const cardContainer = this.scene.add.container(window.width / 2, window.height / 2)
+                const cardContainer = this.scene.add.container(window_config.width / 2, window_config.height / 2)
                     .setDepth(102)
                     .setMask(mask);
 
@@ -101,10 +101,10 @@ export class UIBar {
                 let scrollY = 0;
 
                 cardContainer.setInteractive(new Phaser.Geom.Rectangle(
-                    -window.width * 0.35,
-                    -window.height * 0.35,
-                    window.width * 0.7,
-                    window.height * 0.7
+                    -window_config.width * 0.35,
+                    -window_config.height * 0.35,
+                    window_config.width * 0.7,
+                    window_config.height * 0.7
                 ), Phaser.Geom.Rectangle.Contains);
 
                 // Add scroll wheel functionality
@@ -113,10 +113,10 @@ export class UIBar {
                     scrollY -= deltaY * 0.5; // Adjust 0.5 to control scroll speed
 
                     // Limit scrolling
-                    const maxScroll = Math.max(0, (Math.ceil(cards.length / cardsPerRow) + 2) * (cardHeight + padding) - window.height * 0.7);
+                    const maxScroll = Math.max(0, (Math.ceil(cards.length / cardsPerRow) + 2) * (cardHeight + padding) - window_config.height * 0.7);
                     scrollY = Phaser.Math.Clamp(scrollY, -maxScroll, 0);
 
-                    cardContainer.setY(window.height / 2 + scrollY);
+                    cardContainer.setY(window_config.height / 2 + scrollY);
                 });
 
                 // Update cleanup to include wheel event
@@ -134,13 +134,13 @@ export class UIBar {
 
         }
         // Create Path button
-        createButton(window.width * 8 / 10, 'Path', () => {
+        createButton(window_config.width * 8 / 10, 'Path', () => {
             console.log('Open path view');
             // Add your path view logic here
         });
 
         // Create Language toggle button
-        createButton(window.width * 9 / 10, 'EN/中', () => {
+        createButton(window_config.width * 9 / 10, 'EN/中', () => {
             const currentLang = this.scene.registry.get('language') as Language;
             const newLang: Language = currentLang === 'en' ? 'zh' : 'en';
             this.scene.registry.set('language', newLang);

@@ -8,9 +8,9 @@ import time
 from nacl.public import PrivateKey, Box
 import nacl
 import base64
-
+from api.hero import router as hero_router
 from models import ServerKey, User
-
+from api.keypair import router as keypair_router
 # Add these lines after imports
 engine = create_engine("sqlite:///example.db")
 
@@ -29,6 +29,7 @@ skserver = PrivateKey(bytes.fromhex(private_key))
 pkserver = skserver.public_key
 
 app = FastAPI()
+app.version = "0.1.1"
 
 app.add_middleware(
     CORSMiddleware,
@@ -37,22 +38,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class HeroSelect(BaseModel):
-    hero_id: int
-    user_id: int
-
-
-class Token(BaseModel):
-    public_key: str
-    signature: str
-
-
-@app.post("/hero_select")
-def hero_select(hero: HeroSelect):
-    print(hero)
-    return hero
 
 
 class UserResponse(BaseModel):
@@ -68,36 +53,6 @@ class UserResponse(BaseModel):
 def get_users() -> list[UserResponse]:
     users = session.query(User).all()
     return users
-
-
-@app.get("/generate_keypair")
-def generate_keypair():
-    private_key = PrivateKey.generate()
-    public_key = private_key.public_key
-    global pkserver
-    global skserver
-    box = Box(private_key, pkserver)
-
-    login_time = int(time.time())
-    message = str(login_time).encode()
-    encrypted = box.encrypt(
-        message
-    )  # This includes nonce and other data needed for decryption
-
-    access_token = (
-        public_key.encode().hex() + "." + base64.b64encode(encrypted).decode()
-    )  # Use base64 encoding
-
-    # save to db
-    user = User(public_key=public_key.encode().hex(), login_time=login_time)
-    session.add(user)
-    session.commit()
-
-    return {
-        "public_key": public_key.encode().hex(),
-        "private_key": private_key.encode().hex(),
-        "access_token": access_token,
-    }
 
 
 @app.get("/login")
@@ -121,7 +76,7 @@ async def verify_token_middleware(request: Request, call_next):
         )
 
     # List of paths that don't require authentication
-    public_paths = ["/login", "/generate_keypair", "/users", "/docs", "/openapi.json"]
+    public_paths = ["/login", "/keypair", "/users", "/docs", "/openapi.json"]
     if request.url.path in public_paths:
         return await call_next(request)
 
@@ -154,6 +109,9 @@ async def verify_token_middleware(request: Request, call_next):
     return await call_next(request)
 
 
+# Include the hero router
+app.include_router(hero_router, prefix="/api/hero", tags=["hero"])
+app.include_router(keypair_router, tags=["keypair"])
 app.middleware("http")(verify_token_middleware)
 
 # Add exception handlers before running the app
@@ -164,18 +122,15 @@ async def http_exception_handler(request: Request, exc: HTTPException):
         content={"code": exc.status_code, "message": exc.detail},
     )
 
+
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
-        content={
-            "code": 500,
-            "message": "Internal server error",
-            "detail": str(exc)
-        },
+        content={"code": 500, "message": "Internal server error", "detail": str(exc)},
     )
+
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=8000)

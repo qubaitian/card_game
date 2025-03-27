@@ -1,9 +1,8 @@
 import { Scene } from 'phaser';
 import { lang, Language } from '../config/lang';
 import { UIBar } from '../components/UIBar';
-import window from '../config/window';
+import window_config from '../config/window_config';
 import { CardFactory, headbutt } from '../components/Card';
-import { api } from '../common';
 
 export class SelectHero extends Scene {
 
@@ -20,42 +19,27 @@ export class SelectHero extends Scene {
         // Create three hero cards with titles and descriptions
         const cardFactory = new CardFactory(this);
         cardFactory.createCard(
-            window.width / 4,
-            window.height / 2,
+            window_config.width / 4,
+            window_config.height / 2,
             headbutt,
-            async (id: number) => {
-                // Send the selected hero to the server
-                const result = await api.heroSelectHeroSelectPost({
-                    hero_id: id,
-                    user_id: 1 // You'll need to get the actual user ID from your auth system
-                });
-                console.log(result);
+            () => {
+                console.log('headbutt');
             }
         );
         cardFactory.createCard(
-            window.width * 2 / 4,
-            window.height / 2,
+            window_config.width * 2 / 4,
+            window_config.height / 2,
             headbutt,
-            async (id: number) => {
-                // Send the selected hero to the server
-                const result = await api.heroSelectHeroSelectPost({
-                    hero_id: id,
-                    user_id: 1 // You'll need to get the actual user ID from your auth system
-                });
-                console.log(result);
+            () => {
+                console.log('headbutt');
             }
         );
         cardFactory.createCard(
-            window.width * 3 / 4,
-            window.height / 2,
+            window_config.width * 3 / 4,
+            window_config.height / 2,
             headbutt,
-            async (id: number) => {
-                // Send the selected hero to the server
-                const result = await api.heroSelectHeroSelectPost({
-                    hero_id: id,
-                    user_id: 1 // You'll need to get the actual user ID from your auth system
-                });
-                console.log(result);
+            () => {
+                console.log('headbutt');
             }
         );
     }

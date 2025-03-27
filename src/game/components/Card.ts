@@ -1,5 +1,4 @@
 import { Scene } from 'phaser';
-import { api } from '../common';
 import { cardOptions } from '../config/card';
 
 interface Player {
@@ -11,7 +10,7 @@ interface Player {
     consumedCardsMap: Map<number, CardData>;
 }
 
-interface CardData {
+class CardData {
     id: number;
     text: {
         [key: string]: {
