@@ -58,6 +58,25 @@ export interface HeroSelect {
 /**
  * 
  * @export
+ * @interface Keypair
+ */
+export interface Keypair {
+    /**
+     * 
+     * @type {string}
+     * @memberof Keypair
+     */
+    'public_key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Keypair
+     */
+    'private_key': string;
+}
+/**
+ * 
+ * @export
  * @interface UserResponse
  */
 export interface UserResponse {
@@ -448,7 +467,7 @@ export const KeypairApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getKeypairGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getKeypairGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Keypair>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getKeypairGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['KeypairApi.getKeypairGet']?.[localVarOperationServerIndex]?.url;
@@ -470,7 +489,7 @@ export const KeypairApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getKeypairGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+        getKeypairGet(options?: RawAxiosRequestConfig): AxiosPromise<Keypair> {
             return localVarFp.getKeypairGet(options).then((request) => request(axios, basePath));
         },
     };
