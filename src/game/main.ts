@@ -3,10 +3,8 @@ import window_config from './config/window_config';
 import { Preloader } from './scenes/Preloader';
 import { Login } from './scenes/Login';
 import { SelectMode } from './scenes/SelectMode';
-import { Continue } from './scenes/Continue';
-import { SelectNeon } from './scenes/SelectNeon';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
-import { STSSelectHero } from './scenes/STSSelectHero';
+
 
 
 //  Find out more information about the Game Config at:
@@ -23,10 +21,7 @@ const config: Types.Core.GameConfig = {
     scene: [
         Preloader,  // 添加 Preloader 作为第一个场景
         Login,
-        STSSelectHero,
         SelectMode,
-        SelectNeon,
-        Continue,
     ],
     parent: 'phaser-container',
 	dom: {

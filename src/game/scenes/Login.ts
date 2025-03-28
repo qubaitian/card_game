@@ -50,7 +50,7 @@ export class Login extends Scene {
             token_config.baseOptions.headers.Authorization = res.data.access_token;
 
             localStorage.setItem('privateKey', inputField.text);
-            this.scene.start('SelectMode');
+            this.scene.start('SelectCard');
         });
     }
 }

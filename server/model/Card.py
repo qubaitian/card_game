@@ -76,16 +76,14 @@ def read_all_cards():
     # Get current working directory and convert to Path object
     current_dir = Path(os.getcwd())
     current_dir = current_dir / "card"
-    for folder in current_dir.iterdir():
-        if folder.is_dir():
-            card_map[folder.stem] = {}
-            for yaml_file in folder.glob("*.yaml"):
-                with open(yaml_file, "r", encoding="utf-8") as f:
-                    card_data = yaml.safe_load(f)
-                    for card_id, card_info in card_data.items():
-                        specific_card_class = globals().get(f"{card_id}", Card)
-                        card_data = specific_card_class(**card_info)
-                        card_map[folder.stem][card_id] = card_data
+
+    for yaml_file in current_dir.glob("*.yaml"):
+        with open(yaml_file, "r", encoding="utf-8") as f:
+            card_data = yaml.safe_load(f)
+            for card_id, card_info in card_data.items():
+                specific_card_class = globals().get(f"{card_id}", Card)
+                card_data = specific_card_class(**card_info)
+                card_map[card_id] = card_data
     return card_map
 
 

@@ -13,7 +13,7 @@ from server.api.hero import router as hero_router
 from server.api.game import router as game_router
 
 from server.po.db import ServerKey, User, session
-
+from server.po.cache import game_cache
 
 server_key = session.query(ServerKey).first()
 if not server_key:
@@ -79,6 +79,10 @@ def login(request: LoginRequest) -> LoginResponse:
     user = User(public_key=public_key.encode().hex(), login_time=login_time)
     session.add(user)
     session.commit()
+
+    game_cache[public_key.encode().hex()] = {
+        'room': 'select_mode',
+    }
 
     return {
         "access_token": access_token,

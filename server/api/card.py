@@ -5,6 +5,5 @@ from server.model.Card import Card, card_map
 router = APIRouter()
 
 @router.get("/card_map")
-def get() -> dict[str, dict[str, Card]]:
-    print(card_map)
+def get() -> dict[str, Card]:
     return card_map
