@@ -1,0 +1,71 @@
+sts_Strike_301:
+  id: sts_Strike_301
+  tag:
+    - green
+    - deck
+  text:
+    en:
+      title: Strike
+      content: It deals {damage} damage to the target.
+    zh:
+      title: 打击
+      content: 对目标造成{damage}点伤害
+  level_data:
+    - damage: 6
+      cost: 1
+    - damage: 9
+      cost: 1
+sts_Defend_302:
+  id: sts_Defend_302
+  tag:
+    - green
+    - deck
+  text:
+    en:
+      title: Defend
+      content: It gains {shield} shield.
+    zh:
+      title: 防御
+      content: 获得{shield}点护盾
+  level_data:
+    - shield: 5
+      cost: 1
+    - shield: 8
+      cost: 1
+sts_Bash_303:
+  id: sts_Bash_303
+  tag:
+    - green
+    - deck
+  text:
+    en:
+      title: Bash
+      content: It deals {damage} damage and applies {vulnerable} Vulnerable. 
+    zh:
+      title: 痛击
+      content: "对目标造成{damage}点伤害, 给予{vulnerable}层易伤"
+  level_data:
+    - damage: 8
+      vulnerable: 2
+      cost: 2
+    - damage: 12
+      vulnerable: 3
+      cost: 2
+sts_Neutralize_304:
+  id: sts_Neutralize_304
+  tag:
+    - green
+    - deck
+  text:
+    en:
+      title: Headbutt
+      content: It deals {damage} damage to the target. choose a card from the discard pile, and return it to the draw pile top
+    zh:
+      title: 头槌
+      content: 对目标造成{damage}点伤害, 选择弃牌堆的一张牌,返回抽牌堆顶
+  level_data:
+    - damage: 1
+      cost: 1
+    - damage: 2
+      cost: 1
+

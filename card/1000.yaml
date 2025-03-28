@@ -1,0 +1,33 @@
+Continue_1001:
+  id: Continue_1001
+  tag:
+    - event
+  text:
+    en:
+      title: Continue
+      content: Continue the game
+    zh:
+      title: 继续
+      content: 继续游戏
+STS_1002:
+  id: STS_1002
+  tag:
+    - event
+  text:
+    en:
+      title: Slay the Spire
+      content: start a new game 
+    zh:
+      title: 杀戮尖塔
+      content: 开始一局杀戮尖塔游戏
+PVP_1003:
+  id: PVP_1003
+  tag:
+    - event
+  text:
+    en:
+      title: PVP
+      content: PVP mode
+    zh:
+      title: 对战
+      content: 对战模式

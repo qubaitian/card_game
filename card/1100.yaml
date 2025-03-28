@@ -1,0 +1,43 @@
+sts_Ironclad_101:
+  id: sts_Ironclad_101
+  tag:
+    - event
+  text:
+    en:
+      title: Ironclad
+      content: The remaining soldier of the Ironclads. Sold his soul to harness demonic energies.
+    zh:
+      title: 铁甲战士
+      content: 铁甲军团残留下的士兵。他出卖自己的灵魂，获得了恶魔的力量
+  design:
+    - 将颜色卡池限制为红色
+    - 将玩家起手卡组设置为16张打击, 12张防御, 2张痛击
+sts_Silent_102:
+  id: sts_Silent_102
+  tag:
+    - event
+  text:
+    en:
+      title: Silent
+      content: A deadly huntress from the foglands. Eradicates foes with daggers and poisons
+    zh:
+      title: 静默猎手
+      content: 来自雾霾之地的致命女猎手。使用匕首和毒药消灭敌人。
+  design:
+    - 将颜色卡池限制为绿色
+    - 将玩家起手卡组设置为16张打击, 10张防御, 2张压制, 2张幸存者
+
+sts_Defect_103:
+  id: sts_Defect_103
+  tag:
+    - event
+  text:
+    en:
+      title: Defect
+      content: Combat automaton which became self-aware. Ancient technology allows manipulation of Orbs.
+    zh:
+      title: 故障机器人
+      content: 一具产生了自我意识的战斗型机器人。它装载的远古科技让它可以操控充能球。
+  design:
+    - 将颜色卡池限制为灰色, 这里没有用杀戮尖塔里的蓝色，因为我想把天蓝色留给法师，蓝色留给萨满
+    - 将玩家起手卡组设置为12张打击, 10张防御, 2张双倍释放, 2张闪电
