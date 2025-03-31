@@ -1,5 +1,5 @@
-sts_Strike_201:
-  id: sts_Strike_201
+Strike_1201:
+  id: Strike_1201
   tag:
     - red
     - deck
@@ -15,8 +15,8 @@ sts_Strike_201:
       cost: 1
     - damage: 9
       cost: 1
-sts_Defend_202:
-  id: sts_Defend_202
+Defend_1202:
+  id: Defend_1202
   tag:
     - red
     - deck
@@ -32,8 +32,8 @@ sts_Defend_202:
       cost: 1
     - shield: 8
       cost: 1
-sts_Bash_203:
-  id: sts_Bash_203
+Bash_1203:
+  id: Bash_1203
   tag:
     - red
     - deck
@@ -51,8 +51,8 @@ sts_Bash_203:
     - damage: 12
       vulnerable: 3
       cost: 2
-sts_Headbutt_204:
-  id: sts_Headbutt_204
+Headbutt_1204:
+  id: Headbutt_1204
   tag:
     - red
     - deck
@@ -68,8 +68,8 @@ sts_Headbutt_204:
       cost: 1
     - damage: 2
       cost: 1
-sts_PommelStrike_205:
-  id: sts_PommelStrike_205
+PommelStrike_1205:
+  id: PommelStrike_1205
   tag:
     - red
     - deck

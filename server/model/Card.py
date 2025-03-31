@@ -6,6 +6,7 @@ from typing import Optional
 
 import yaml
 
+from server.model.Game import CurrentSceneModel
 from server.model.Player import Player, Target
 
 
@@ -28,11 +29,11 @@ class Card(BaseModel):
     level_data: list[CardData] = []
     data: Optional[list[str]] = None
 
-    def when_pick(self, player: Player):
+    def when_pick(self, current_scene_model: CurrentSceneModel):
         if "event" in self.tag:
-            player.event.append(self.id)
+            current_scene_model.player.event.append(self.id)
         if "deck" in self.tag:
-            player.deck.append(self.id)
+            current_scene_model.player.deck.append(self.id)
 
     def when_play(
         self,
@@ -51,7 +52,7 @@ class Card(BaseModel):
             card = player.deck.pop(0)
             player.hand.append(card)
 
-def read_all_cards():
+def read_all_cards() -> dict[str, Card]:
     """
     Reads all card_*.yaml files in the current directory and returns a map of their contents.
 
@@ -62,7 +63,6 @@ def read_all_cards():
     """Dynamically imports all Card_*.py files in the current directory"""
     current_dir = Path(__file__).parent  # Use file's directory instead of cwd
     for card_file in current_dir.glob("Card_*.py"):
-        print(card_file)
         module_name = card_file.stem  # Gets filename without extension
         spec = importlib.util.spec_from_file_location(module_name, card_file)
         module = importlib.util.module_from_spec(spec)

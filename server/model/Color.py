@@ -5,5 +5,5 @@ class Color(Enum):
     BLUE = "blue"
     GREEN = "green"
     YELLOW = "yellow"
-    # 可以根据需要添加更多颜色
+    PURPLE = "purple"
 

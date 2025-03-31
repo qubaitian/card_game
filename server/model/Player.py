@@ -10,5 +10,5 @@ class Target(BaseModel):
 class Player(Target):
     event: list[str] = []
     deck: list[str] = []
+    choice: list[str] = []
     color: list[Color] = []
-

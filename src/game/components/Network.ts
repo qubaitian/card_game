@@ -1,7 +1,7 @@
 import { Configuration, DefaultApiFactory } from "../server_api";
 import { KeypairApiFactory } from "../server_api";
 import { CardApiFactory } from "../server_api";
-import { GameApiFactory } from "../server_api";
+import { SceneApiFactory } from "../server_api";
 const API_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL || 'http://localhost:8000';   
 
 export const token_config = new Configuration({
@@ -16,4 +16,4 @@ export const token_config = new Configuration({
 export const keypair_api = KeypairApiFactory(token_config);
 export const login_api = DefaultApiFactory(token_config);
 export const card_api = CardApiFactory(token_config);
-export const game_api = GameApiFactory(token_config);
+export const scene_api = SceneApiFactory(token_config);

@@ -2,9 +2,8 @@ import { Game, Types, Scale, AUTO } from 'phaser';
 import window_config from './config/window_config';
 import { Preloader } from './scenes/Preloader';
 import { Login } from './scenes/Login';
-import { SelectMode } from './scenes/SelectMode';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
-
+import { CurrentScene } from './scenes/CurrentScene';
 
 
 //  Find out more information about the Game Config at:
@@ -21,20 +20,20 @@ const config: Types.Core.GameConfig = {
     scene: [
         Preloader,  // 添加 Preloader 作为第一个场景
         Login,
-        SelectMode,
+        CurrentScene,
     ],
     parent: 'phaser-container',
-	dom: {
+    dom: {
         createContainer: true
     },
-	plugins: {
-		scene: [
-			{
-				key: 'rexUI',
-				plugin: RexUIPlugin,
-				mapping: 'rexUI'
-			}
-		]
+    plugins: {
+        scene: [
+            {
+                key: 'rexUI',
+                plugin: RexUIPlugin,
+                mapping: 'rexUI'
+            }
+        ]
     }
 };
 

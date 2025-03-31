@@ -1,5 +1,5 @@
-sts_Strike_301:
-  id: sts_Strike_301
+Strike_1301:
+  id: Strike_1301
   tag:
     - green
     - deck
@@ -15,8 +15,8 @@ sts_Strike_301:
       cost: 1
     - damage: 9
       cost: 1
-sts_Defend_302:
-  id: sts_Defend_302
+Defend_1302:
+  id: Defend_1302
   tag:
     - green
     - deck
@@ -32,8 +32,8 @@ sts_Defend_302:
       cost: 1
     - shield: 8
       cost: 1
-sts_Bash_303:
-  id: sts_Bash_303
+Bash_1303:
+  id: Bash_1303
   tag:
     - green
     - deck
@@ -51,14 +51,14 @@ sts_Bash_303:
     - damage: 12
       vulnerable: 3
       cost: 2
-sts_Neutralize_304:
-  id: sts_Neutralize_304
+Neutralize_1304:
+  id: Neutralize_1304
   tag:
     - green
     - deck
   text:
     en:
-      title: Headbutt
+      title: Neutralize
       content: It deals {damage} damage to the target. choose a card from the discard pile, and return it to the draw pile top
     zh:
       title: 头槌

@@ -113,6 +113,64 @@ export interface CardText {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const Color = {
+    Red: 'red',
+    Blue: 'blue',
+    Green: 'green',
+    Yellow: 'yellow'
+} as const;
+
+export type Color = typeof Color[keyof typeof Color];
+
+
+/**
+ * 
+ * @export
+ * @interface CurrentSceneModel
+ */
+export interface CurrentSceneModel {
+    /**
+     * 
+     * @type {Player}
+     * @memberof CurrentSceneModel
+     */
+    'player'?: Player;
+    /**
+     * 
+     * @type {Event}
+     * @memberof CurrentSceneModel
+     */
+    'event'?: Event;
+    /**
+     * 
+     * @type {Array<Card>}
+     * @memberof CurrentSceneModel
+     */
+    'loot_card_list'?: Array<Card>;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Event = {
+    Battle: 'battle',
+    LootOne: 'loot_one',
+    LootAny: 'loot_any'
+} as const;
+
+export type Event = typeof Event[keyof typeof Event];
+
+
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -186,6 +244,55 @@ export interface LoginResponse {
      * @memberof LoginResponse
      */
     'access_token': string;
+}
+/**
+ * 
+ * @export
+ * @interface Player
+ */
+export interface Player {
+    /**
+     * 
+     * @type {number}
+     * @memberof Player
+     */
+    'life'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Player
+     */
+    'damage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Player
+     */
+    'vulnerable'?: number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Player
+     */
+    'event'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Player
+     */
+    'deck'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Player
+     */
+    'choice'?: Array<string>;
+    /**
+     * 
+     * @type {Array<Color>}
+     * @memberof Player
+     */
+    'color'?: Array<Color>;
 }
 /**
  * 
@@ -297,7 +404,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCardCardMapGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: { [key: string]: Card; }; }>> {
+        async getCardCardMapGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Card; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCardCardMapGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CardApi.getCardCardMapGet']?.[localVarOperationServerIndex]?.url;
@@ -319,7 +426,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCardCardMapGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: { [key: string]: Card; }; }> {
+        getCardCardMapGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Card; }> {
             return localVarFp.getCardCardMapGet(options).then((request) => request(axios, basePath));
         },
     };
@@ -513,107 +620,6 @@ export class DefaultApi extends BaseAPI {
      */
     public loginLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).loginLoginPost(loginRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * GameApi - axios parameter creator
- * @export
- */
-export const GameApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Hero List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        heroListGameSTSHeroListGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/game/STS/hero/list`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * GameApi - functional programming interface
- * @export
- */
-export const GameApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = GameApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Hero List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Card>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.heroListGameSTSHeroListGet(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['GameApi.heroListGameSTSHeroListGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * GameApi - factory interface
- * @export
- */
-export const GameApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = GameApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Hero List
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<Card>> {
-            return localVarFp.heroListGameSTSHeroListGet(options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * GameApi - object-oriented interface
- * @export
- * @class GameApi
- * @extends {BaseAPI}
- */
-export class GameApi extends BaseAPI {
-    /**
-     * 
-     * @summary Hero List
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GameApi
-     */
-    public heroListGameSTSHeroListGet(options?: RawAxiosRequestConfig) {
-        return GameApiFp(this.configuration).heroListGameSTSHeroListGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -825,6 +831,107 @@ export class KeypairApi extends BaseAPI {
      */
     public getKeypairGet(options?: RawAxiosRequestConfig) {
         return KeypairApiFp(this.configuration).getKeypairGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * SceneApi - axios parameter creator
+ * @export
+ */
+export const SceneApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Current
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentScenePost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/scene`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * SceneApi - functional programming interface
+ * @export
+ */
+export const SceneApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SceneApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Current
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async currentScenePost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.currentScenePost(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SceneApi.currentScenePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * SceneApi - factory interface
+ * @export
+ */
+export const SceneApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SceneApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Current
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentScenePost(options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.currentScenePost(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * SceneApi - object-oriented interface
+ * @export
+ * @class SceneApi
+ * @extends {BaseAPI}
+ */
+export class SceneApi extends BaseAPI {
+    /**
+     * 
+     * @summary Current
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SceneApi
+     */
+    public currentScenePost(options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).currentScenePost(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -1,5 +1,5 @@
-sts_Ironclad_101:
-  id: sts_Ironclad_101
+Ironclad_1101:
+  id: Ironclad_1101
   tag:
     - event
   text:
@@ -12,8 +12,8 @@ sts_Ironclad_101:
   design:
     - 将颜色卡池限制为红色
     - 将玩家起手卡组设置为16张打击, 12张防御, 2张痛击
-sts_Silent_102:
-  id: sts_Silent_102
+Silent_1102:
+  id: Silent_1102
   tag:
     - event
   text:
@@ -27,8 +27,8 @@ sts_Silent_102:
     - 将颜色卡池限制为绿色
     - 将玩家起手卡组设置为16张打击, 10张防御, 2张压制, 2张幸存者
 
-sts_Defect_103:
-  id: sts_Defect_103
+Defect_1103:
+  id: Defect_1103
   tag:
     - event
   text:
@@ -41,3 +41,15 @@ sts_Defect_103:
   design:
     - 将颜色卡池限制为灰色, 这里没有用杀戮尖塔里的蓝色，因为我想把天蓝色留给法师，蓝色留给萨满
     - 将玩家起手卡组设置为12张打击, 10张防御, 2张双倍释放, 2张闪电
+
+Watcher_1104:
+  id: Watcher_1104
+  tag:
+    - event
+  text:
+    en:
+      title: Watcher
+      content: A guardian of the dark realm. Can manipulate the Orbs.
+    zh:
+      title: 守望者
+      content: 黑暗王国的守护者。可以操控充能球。

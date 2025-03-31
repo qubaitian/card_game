@@ -1,5 +1,5 @@
-sts_Strike_401:
-  id: sts_Strike_401
+Strike_1401:
+  id: Strike_1401
   tag:
     - red
     - deck
@@ -15,8 +15,8 @@ sts_Strike_401:
       cost: 1
     - damage: 9
       cost: 1
-sts_Defend_402:
-  id: sts_Defend_402
+Defend_1402:
+  id: Defend_1402
   tag:
     - red
     - deck
@@ -32,8 +32,8 @@ sts_Defend_402:
       cost: 1
     - shield: 8
       cost: 1
-sts_Dualcast_403:
-  id: sts_Dualcast_403
+Dualcast_1403:
+  id: Dualcast_1403
   tag:
     - green
     - deck
@@ -47,8 +47,8 @@ sts_Dualcast_403:
   level_data:
     - cost: 1
     - cost: 0
-sts_Zap_404:
-  id: sts_Zap_404
+Zap_1404:
+  id: Zap_1404
   tag:
     - green
     - deck

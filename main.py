@@ -10,10 +10,13 @@ import base64
 from server.api.keypair import router as keypair_router
 from server.api.card import router as card_router
 from server.api.hero import router as hero_router
-from server.api.game import router as game_router
+from server.api.scene import router as scene_router
 
+from server.model.Player import Player
+from server.model.Game import CurrentSceneModel, Event
 from server.po.db import ServerKey, User, session
 from server.po.cache import game_cache
+from server.model.Card import card_map
 
 server_key = session.query(ServerKey).first()
 if not server_key:
@@ -80,10 +83,13 @@ def login(request: LoginRequest) -> LoginResponse:
     session.add(user)
     session.commit()
 
-    game_cache[public_key.encode().hex()] = {
-        'room': 'select_mode',
-    }
+    if public_key.encode().hex() not in game_cache:
+        game_cache[public_key.encode().hex()] = CurrentSceneModel(player=Player(public_key=public_key.encode().hex()))
 
+    game_cache[public_key.encode().hex()].event = Event.LOOT_ONE
+    game_cache[public_key.encode().hex()].loot_card_list = [card_map["Continue_1001"], card_map["STS_1002"], card_map["PVP_1003"]]
+
+    print(game_cache)
     return {
         "access_token": access_token,
     }
@@ -127,11 +133,6 @@ async def verify_token_middleware(request: Request, call_next):
     server_box = Box(skserver, client_public_key)
     plaintext = server_box.decrypt(signature_bytes)
     print(plaintext)
-    if (
-        int(plaintext.decode())
-        != session.query(User).filter(User.public_key == public_key).first().login_time
-    ):
-        raise HTTPException(status_code=401, detail="Invalid signature")
 
     return await call_next(request)
 
@@ -139,9 +140,9 @@ async def verify_token_middleware(request: Request, call_next):
 # Include the hero router
 app.include_router(hero_router, prefix="/api/hero", tags=["hero"])
 app.include_router(card_router, prefix="/card", tags=["card"])
-app.include_router(game_router, prefix="/game", tags=["game"])
+app.include_router(scene_router, prefix="/scene", tags=["scene"])
 app.include_router(keypair_router, tags=["keypair"])
-# app.middleware("http")(verify_token_middleware)
+app.middleware("http")(verify_token_middleware)
 
 # Add exception handlers before running the app
 @app.exception_handler(HTTPException)
