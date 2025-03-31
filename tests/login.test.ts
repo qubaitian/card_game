@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import { DefaultApiFactory } from "../src/game/server_api/api";
 import { Configuration } from "../src/game/server_api/configuration";
 
@@ -12,6 +13,6 @@ describe('Network tests', () => {
     const response = await login_api.loginLoginPost({
       private_key: "2ff44da770473f99a51f9413cadc0b369088422f15529566782d7dba00b523ce",
     });
-    console.log(response.data.access_token);
+    assert(response.data.access_token, JSON.stringify(response.data));
   });
 });

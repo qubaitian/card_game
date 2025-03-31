@@ -26,70 +26,45 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
- * @interface Card
- */
-export interface Card {
-    /**
-     * 
-     * @type {string}
-     * @memberof Card
-     */
-    'id': string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Card
-     */
-    'tag': Array<string>;
-    /**
-     * 
-     * @type {{ [key: string]: CardText; }}
-     * @memberof Card
-     */
-    'text': { [key: string]: CardText; };
-    /**
-     * 
-     * @type {number}
-     * @memberof Card
-     */
-    'level'?: number;
-    /**
-     * 
-     * @type {Array<CardData>}
-     * @memberof Card
-     */
-    'level_data'?: Array<CardData>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Card
-     */
-    'data'?: Array<string> | null;
-}
-/**
- * 
- * @export
  * @interface CardData
  */
 export interface CardData {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CardData
      */
-    'damage'?: number;
+    'id': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CardData
+     */
+    'tag': Array<string>;
+    /**
+     * 
+     * @type {{ [key: string]: CardText; }}
+     * @memberof CardData
+     */
+    'text': { [key: string]: CardText; };
     /**
      * 
      * @type {number}
      * @memberof CardData
      */
-    'vulnerable'?: number;
+    'level'?: number;
     /**
      * 
-     * @type {number}
+     * @type {Array<LevelData>}
      * @memberof CardData
      */
-    'draw'?: number;
+    'level_data'?: Array<LevelData>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CardData
+     */
+    'data'?: Array<string> | null;
 }
 /**
  * 
@@ -147,10 +122,10 @@ export interface CurrentSceneModel {
     'event'?: Event;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<CardData>}
      * @memberof CurrentSceneModel
      */
-    'loot_card_list'?: Array<string>;
+    'loot_card_list'?: Array<CardData>;
 }
 
 
@@ -201,6 +176,31 @@ export interface Keypair {
      * @memberof Keypair
      */
     'private_key': string;
+}
+/**
+ * 
+ * @export
+ * @interface LevelData
+ */
+export interface LevelData {
+    /**
+     * 
+     * @type {number}
+     * @memberof LevelData
+     */
+    'damage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LevelData
+     */
+    'vulnerable'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LevelData
+     */
+    'draw'?: number;
 }
 /**
  * 
@@ -387,7 +387,7 @@ export const CardApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCardCardMapGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Card; }>> {
+        async getCardCardMapGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: CardData; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCardCardMapGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CardApi.getCardCardMapGet']?.[localVarOperationServerIndex]?.url;
@@ -409,7 +409,7 @@ export const CardApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCardCardMapGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Card; }> {
+        getCardCardMapGet(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: CardData; }> {
             return localVarFp.getCardCardMapGet(options).then((request) => request(axios, basePath));
         },
     };

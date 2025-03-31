@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import { CardApiFactory, DefaultApiFactory } from "../src/game/server_api/api";
 import { Configuration } from "../src/game/server_api/configuration";
 
@@ -19,7 +20,6 @@ describe('Network tests', () => {
 
     test("select card should work correctly", async () => {
         const response = await card_api.getCardCardMapGet();
-        console.log(response.data);
     });
 });
 

@@ -6,6 +6,7 @@ from server.service.Card import Card
 
 router = APIRouter()
 
+
 @router.post("/current")
 def current(request: Request) -> CurrentSceneModel:
     public_key = request.state.public_key

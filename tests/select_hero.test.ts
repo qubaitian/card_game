@@ -1,4 +1,4 @@
-import { CardApiFactory, DefaultApiFactory, GameApiFactory } from "../src/game/server_api/api";
+import { DefaultApiFactory, SceneApiFactory, } from "../src/game/server_api/api";
 import { Configuration } from "../src/game/server_api/configuration";
 
 const configuration = new Configuration({
@@ -6,7 +6,7 @@ const configuration = new Configuration({
 })
 
 const login_api = DefaultApiFactory(configuration);
-const game_api = GameApiFactory(configuration);
+const scene_api = SceneApiFactory(configuration);
 
 describe('Network tests', () => {
     beforeAll(async () => {
@@ -18,8 +18,8 @@ describe('Network tests', () => {
     });
 
     test("select card should work correctly", async () => {
-        const response = await card_api.getCardCardMapGet();
-        console.log(response.data);
+        const response = await scene_api.currentSceneCurrentPost();
+        expect(response.data.loot_card_list?.length).toEqual(3);
     });
 });
 

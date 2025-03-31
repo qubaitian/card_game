@@ -39,6 +39,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add exception handlers before running the app
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    # 首先检查是否为 HTTPException
+    if isinstance(exc, HTTPException):
+        return JSONResponse(
+            status_code=200,
+            content={"code": exc.status_code, "message": exc.detail},
+        )
+    # 处理其他所有异常
+    return JSONResponse(
+        status_code=200,
+        content={"code": 500, "message": "Internal server error", "detail": str(exc)},
+    )
+
+
 class UserResponse(BaseModel):
     id: int
     public_key: str
@@ -56,6 +72,7 @@ def get_users() -> list[UserResponse]:
 
 class LoginRequest(BaseModel):
     private_key: str
+
 
 class LoginResponse(BaseModel):
     access_token: str
@@ -86,10 +103,16 @@ def login(request: LoginRequest) -> LoginResponse:
     session.commit()
 
     if public_key.encode().hex() not in game_cache:
-        game_cache[public_key.encode().hex()] = CurrentSceneModel(player=Player(public_key=public_key.encode().hex()))
+        game_cache[public_key.encode().hex()] = CurrentSceneModel(
+            player=Player(public_key=public_key.encode().hex())
+        )
 
     game_cache[public_key.encode().hex()].event = Event.LOOT_ONE
-    game_cache[public_key.encode().hex()].loot_card_list = [card_map["Continue_1001"], card_map["STS_1002"], card_map["PVP_1003"]]
+    game_cache[public_key.encode().hex()].loot_card_list = [
+        card_map["Continue_1001"],
+        card_map["STS_1002"],
+        card_map["PVP_1003"],
+    ]
 
     print(game_cache)
     return {
@@ -145,23 +168,8 @@ app.include_router(scene_router, prefix="/scene", tags=["scene"])
 app.include_router(keypair_router, tags=["keypair"])
 app.middleware("http")(verify_token_middleware)
 
-# Add exception handlers before running the app
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"code": exc.status_code, "message": exc.detail},
-    )
-
-
-@app.exception_handler(Exception)
-async def general_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"code": 500, "message": "Internal server error", "detail": str(exc)},
-    )
-
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
