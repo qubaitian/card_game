@@ -10,7 +10,7 @@ export class CurrentScene extends Scene {
     }
 
     async create() {
-        const res = await scene_api.currentScenePost()
+        const res = await scene_api.currentSceneCurrentPost()
         const current_scene_model = res.data as CurrentSceneModel
 
         if (current_scene_model.event === Event.Battle) {

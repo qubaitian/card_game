@@ -120,7 +120,8 @@ export const Color = {
     Red: 'red',
     Blue: 'blue',
     Green: 'green',
-    Yellow: 'yellow'
+    Yellow: 'yellow',
+    Purple: 'purple'
 } as const;
 
 export type Color = typeof Color[keyof typeof Color];
@@ -146,10 +147,10 @@ export interface CurrentSceneModel {
     'event'?: Event;
     /**
      * 
-     * @type {Array<Card>}
+     * @type {Array<string>}
      * @memberof CurrentSceneModel
      */
-    'loot_card_list'?: Array<Card>;
+    'loot_card_list'?: Array<string>;
 }
 
 
@@ -162,7 +163,8 @@ export interface CurrentSceneModel {
 export const Event = {
     Battle: 'battle',
     LootOne: 'loot_one',
-    LootAny: 'loot_any'
+    LootAny: 'loot_any',
+    Path: 'path'
 } as const;
 
 export type Event = typeof Event[keyof typeof Event];
@@ -180,25 +182,6 @@ export interface HTTPValidationError {
      * @memberof HTTPValidationError
      */
     'detail'?: Array<ValidationError>;
-}
-/**
- * 
- * @export
- * @interface HeroSelect
- */
-export interface HeroSelect {
-    /**
-     * 
-     * @type {number}
-     * @memberof HeroSelect
-     */
-    'hero_id': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof HeroSelect
-     */
-    'user_id': number;
 }
 /**
  * 
@@ -626,116 +609,6 @@ export class DefaultApi extends BaseAPI {
 
 
 /**
- * HeroApi - axios parameter creator
- * @export
- */
-export const HeroApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Hero Select
-         * @param {HeroSelect} heroSelect 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        heroSelectApiHeroHeroSelectPost: async (heroSelect: HeroSelect, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'heroSelect' is not null or undefined
-            assertParamExists('heroSelectApiHeroHeroSelectPost', 'heroSelect', heroSelect)
-            const localVarPath = `/api/hero/hero_select`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(heroSelect, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HeroApi - functional programming interface
- * @export
- */
-export const HeroApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HeroApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @summary Hero Select
-         * @param {HeroSelect} heroSelect 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async heroSelectApiHeroHeroSelectPost(heroSelect: HeroSelect, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.heroSelectApiHeroHeroSelectPost(heroSelect, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['HeroApi.heroSelectApiHeroHeroSelectPost']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * HeroApi - factory interface
- * @export
- */
-export const HeroApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HeroApiFp(configuration)
-    return {
-        /**
-         * 
-         * @summary Hero Select
-         * @param {HeroSelect} heroSelect 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        heroSelectApiHeroHeroSelectPost(heroSelect: HeroSelect, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.heroSelectApiHeroHeroSelectPost(heroSelect, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * HeroApi - object-oriented interface
- * @export
- * @class HeroApi
- * @extends {BaseAPI}
- */
-export class HeroApi extends BaseAPI {
-    /**
-     * 
-     * @summary Hero Select
-     * @param {HeroSelect} heroSelect 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HeroApi
-     */
-    public heroSelectApiHeroHeroSelectPost(heroSelect: HeroSelect, options?: RawAxiosRequestConfig) {
-        return HeroApiFp(this.configuration).heroSelectApiHeroHeroSelectPost(heroSelect, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * KeypairApi - axios parameter creator
  * @export
  */
@@ -848,8 +721,8 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        currentScenePost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/scene`;
+        currentSceneCurrentPost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/scene/current`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -860,6 +733,79 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Loot Any
+         * @param {Array<number>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        lootAnySceneLootAnyPost: async (requestBody: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('lootAnySceneLootAnyPost', 'requestBody', requestBody)
+            const localVarPath = `/scene/loot_any`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Loot One
+         * @param {number} lootId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        lootOneSceneLootOnePost: async (lootId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'lootId' is not null or undefined
+            assertParamExists('lootOneSceneLootOnePost', 'lootId', lootId)
+            const localVarPath = `/scene/loot_one`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (lootId !== undefined) {
+                localVarQueryParameter['loot_id'] = lootId;
+            }
 
 
     
@@ -888,10 +834,36 @@ export const SceneApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async currentScenePost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.currentScenePost(options);
+        async currentSceneCurrentPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.currentSceneCurrentPost(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SceneApi.currentScenePost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['SceneApi.currentSceneCurrentPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Loot Any
+         * @param {Array<number>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.lootAnySceneLootAnyPost(requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SceneApi.lootAnySceneLootAnyPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Loot One
+         * @param {number} lootId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.lootOneSceneLootOnePost(lootId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SceneApi.lootOneSceneLootOnePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -910,8 +882,28 @@ export const SceneApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        currentScenePost(options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
-            return localVarFp.currentScenePost(options).then((request) => request(axios, basePath));
+        currentSceneCurrentPost(options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.currentSceneCurrentPost(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Loot Any
+         * @param {Array<number>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.lootAnySceneLootAnyPost(requestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Loot One
+         * @param {number} lootId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.lootOneSceneLootOnePost(lootId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -930,8 +922,32 @@ export class SceneApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SceneApi
      */
-    public currentScenePost(options?: RawAxiosRequestConfig) {
-        return SceneApiFp(this.configuration).currentScenePost(options).then((request) => request(this.axios, this.basePath));
+    public currentSceneCurrentPost(options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).currentSceneCurrentPost(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Loot Any
+     * @param {Array<number>} requestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SceneApi
+     */
+    public lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).lootAnySceneLootAnyPost(requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Loot One
+     * @param {number} lootId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SceneApi
+     */
+    public lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).lootOneSceneLootOnePost(lootId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

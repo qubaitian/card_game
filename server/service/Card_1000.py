@@ -1,7 +1,7 @@
-from server.model.Card import Card
+from server.service.Card import Card
 from server.model.Game import Event, CurrentSceneModel
 from server.model.Player import Player
-from server.model.Card import card_map
+from server.model.CardData import card_map
 
 class Slay_the_Spire_1002(Card):
     def when_pick(self, current_scene_model: CurrentSceneModel):

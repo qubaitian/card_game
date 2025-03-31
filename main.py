@@ -9,14 +9,16 @@ import base64
 
 from server.api.keypair import router as keypair_router
 from server.api.card import router as card_router
-from server.api.hero import router as hero_router
 from server.api.scene import router as scene_router
 
 from server.model.Player import Player
 from server.model.Game import CurrentSceneModel, Event
 from server.po.db import ServerKey, User, session
 from server.po.cache import game_cache
-from server.model.Card import card_map
+from server.model.CardData import card_map
+from server.service.import_all_card import import_all_cards
+
+import_all_cards()
 
 server_key = session.query(ServerKey).first()
 if not server_key:
@@ -138,7 +140,6 @@ async def verify_token_middleware(request: Request, call_next):
 
 
 # Include the hero router
-app.include_router(hero_router, prefix="/api/hero", tags=["hero"])
 app.include_router(card_router, prefix="/card", tags=["card"])
 app.include_router(scene_router, prefix="/scene", tags=["scene"])
 app.include_router(keypair_router, tags=["keypair"])

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
+from server.model.CardData import CardData
 from server.model.Player import Player
-from server.model.Card import Card
 from enum import Enum
 
 class Event(Enum):
@@ -11,7 +11,7 @@ class Event(Enum):
     PATH = 'path'
 
 class CurrentSceneModel(BaseModel):
-    player: Player = Player()
+    player: Player = None
     event: Event = Event.LOOT_ONE
-    loot_card_list: list[Card] = []
+    loot_card_list: list[CardData] = []
 

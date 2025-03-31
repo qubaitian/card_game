@@ -1,6 +1,5 @@
-from server.model.Card import Card
+from server.service.Card import Card
 from server.model.Game import CurrentSceneModel, Event
-from server.model.Player import Player
 from server.model.Color import Color
 
 class Ironclad_1101(Card):
