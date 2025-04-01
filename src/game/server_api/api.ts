@@ -227,6 +227,38 @@ export interface LoginResponse {
      * @memberof LoginResponse
      */
     'access_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponse
+     */
+    'public_key': string;
+}
+/**
+ * 
+ * @export
+ * @interface LootAnyModel
+ */
+export interface LootAnyModel {
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof LootAnyModel
+     */
+    'loot_id_list': Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface LootOneModel
+ */
+export interface LootOneModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof LootOneModel
+     */
+    'loot_id': number;
 }
 /**
  * 
@@ -748,13 +780,13 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Loot Any
-         * @param {Array<number>} requestBody 
+         * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        lootAnySceneLootAnyPost: async (requestBody: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('lootAnySceneLootAnyPost', 'requestBody', requestBody)
+        lootAnySceneLootAnyPost: async (lootAnyModel: LootAnyModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'lootAnyModel' is not null or undefined
+            assertParamExists('lootAnySceneLootAnyPost', 'lootAnyModel', lootAnyModel)
             const localVarPath = `/scene/loot_any`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -774,7 +806,7 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(lootAnyModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -784,13 +816,13 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Loot One
-         * @param {number} lootId 
+         * @param {LootOneModel} lootOneModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        lootOneSceneLootOnePost: async (lootId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'lootId' is not null or undefined
-            assertParamExists('lootOneSceneLootOnePost', 'lootId', lootId)
+        lootOneSceneLootOnePost: async (lootOneModel: LootOneModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'lootOneModel' is not null or undefined
+            assertParamExists('lootOneSceneLootOnePost', 'lootOneModel', lootOneModel)
             const localVarPath = `/scene/loot_one`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -803,15 +835,14 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (lootId !== undefined) {
-                localVarQueryParameter['loot_id'] = lootId;
-            }
-
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(lootOneModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -843,12 +874,12 @@ export const SceneApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Loot Any
-         * @param {Array<number>} requestBody 
+         * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.lootAnySceneLootAnyPost(requestBody, options);
+        async lootAnySceneLootAnyPost(lootAnyModel: LootAnyModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.lootAnySceneLootAnyPost(lootAnyModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SceneApi.lootAnySceneLootAnyPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -856,12 +887,12 @@ export const SceneApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Loot One
-         * @param {number} lootId 
+         * @param {LootOneModel} lootOneModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.lootOneSceneLootOnePost(lootId, options);
+        async lootOneSceneLootOnePost(lootOneModel: LootOneModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.lootOneSceneLootOnePost(lootOneModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SceneApi.lootOneSceneLootOnePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -888,22 +919,22 @@ export const SceneApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Loot Any
-         * @param {Array<number>} requestBody 
+         * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
-            return localVarFp.lootAnySceneLootAnyPost(requestBody, options).then((request) => request(axios, basePath));
+        lootAnySceneLootAnyPost(lootAnyModel: LootAnyModel, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.lootAnySceneLootAnyPost(lootAnyModel, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Loot One
-         * @param {number} lootId 
+         * @param {LootOneModel} lootOneModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
-            return localVarFp.lootOneSceneLootOnePost(lootId, options).then((request) => request(axios, basePath));
+        lootOneSceneLootOnePost(lootOneModel: LootOneModel, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.lootOneSceneLootOnePost(lootOneModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -929,25 +960,25 @@ export class SceneApi extends BaseAPI {
     /**
      * 
      * @summary Loot Any
-     * @param {Array<number>} requestBody 
+     * @param {LootAnyModel} lootAnyModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SceneApi
      */
-    public lootAnySceneLootAnyPost(requestBody: Array<number>, options?: RawAxiosRequestConfig) {
-        return SceneApiFp(this.configuration).lootAnySceneLootAnyPost(requestBody, options).then((request) => request(this.axios, this.basePath));
+    public lootAnySceneLootAnyPost(lootAnyModel: LootAnyModel, options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).lootAnySceneLootAnyPost(lootAnyModel, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Loot One
-     * @param {number} lootId 
+     * @param {LootOneModel} lootOneModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SceneApi
      */
-    public lootOneSceneLootOnePost(lootId: number, options?: RawAxiosRequestConfig) {
-        return SceneApiFp(this.configuration).lootOneSceneLootOnePost(lootId, options).then((request) => request(this.axios, this.basePath));
+    public lootOneSceneLootOnePost(lootOneModel: LootOneModel, options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).lootOneSceneLootOnePost(lootOneModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

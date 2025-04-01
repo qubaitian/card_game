@@ -89,9 +89,9 @@ class LoginResponse(BaseModel):
     access_token: str
     public_key: str
 
+
 @app.post("/login")
 def login(request: LoginRequest) -> LoginResponse:
-    print('login')
     global pkserver
     global skserver
     private_key = PrivateKey(bytes.fromhex(request.private_key))
@@ -134,8 +134,8 @@ def login(request: LoginRequest) -> LoginResponse:
 
 
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    await manager.connect(websocket)
+async def websocket_endpoint(websocket: WebSocket, client_id: str):
+    await manager.connect(websocket, client_id)
     try:
         while True:
             data = await websocket.receive_text()
@@ -164,7 +164,6 @@ async def verify_token_middleware(request: Request, call_next):
         return await call_next(request)
 
     token = request.headers.get("Authorization")
-    print(token)
     if not token:
         raise HTTPException(status_code=401, detail="No token provided")
 
@@ -183,7 +182,6 @@ async def verify_token_middleware(request: Request, call_next):
     request.state.public_key = public_key
     server_box = Box(skserver, client_public_key)
     plaintext = server_box.decrypt(signature_bytes)
-    print(plaintext)
 
     return await call_next(request)
 

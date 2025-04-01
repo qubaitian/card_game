@@ -1,9 +1,9 @@
 import { Scene } from 'phaser';
 import window_config from '../config/window_config';
-import { Card } from '../server_api/api';
+import { CardData } from '../server_api/api';
 
 
-export function createCard(scene: Scene, x: number, y: number, card: Card, onPointerUp: (id: number) => void) {
+export function createCard(scene: Scene, x: number, y: number, card: CardData, onPointerUp: (id: number) => void) {
     // Create a container to hold all card elements
     const container = scene.add.container(x, y);
 

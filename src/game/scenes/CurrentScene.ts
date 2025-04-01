@@ -1,8 +1,9 @@
 import { Scene } from 'phaser';
 import { scene_api } from '../components/Network';
-import { CardData, CurrentSceneModel, Event,  } from '../server_api/api';
+import { CardData, CurrentSceneModel, Event, } from '../server_api/api';
 import { createCard } from '../components/Card';
 import window_config from '../config/window_config';
+import { createButton, createInputField } from '../components/Button';
 
 export class CurrentScene extends Scene {
     private chatWindow: Phaser.GameObjects.Container;
@@ -16,12 +17,12 @@ export class CurrentScene extends Scene {
 
     async create() {
         this.setupWebSocket();
-        
+
         this.createChatWindow();
 
         const res = await scene_api.currentSceneCurrentPost()
         const current_scene_model = res.data as CurrentSceneModel
-        
+
         if (current_scene_model.event === Event.Battle) {
             this.scene.start('BattleScene');
         }
@@ -29,9 +30,9 @@ export class CurrentScene extends Scene {
             if (current_scene_model.loot_card_list) {
                 for (let i = 0; i < current_scene_model.loot_card_list.length; i++) {
                     const card = current_scene_model.loot_card_list[i] as CardData
-                    createCard(this, window_config.width * (10 * i + 7) / 33, window_config.height * 5 / 10, card, () => {
+                    createCard(this, window_config.width * (9 * i + 13) / 36, window_config.height * 5 / 10, card, () => {
                         console.log('card clicked');
-                        scene_api.lootOneSceneLootOnePost(i);
+                        scene_api.lootOneSceneLootOnePost({ loot_id: i });
                         this.scene.start('CurrentScene');
                     });
                 }
@@ -44,8 +45,9 @@ export class CurrentScene extends Scene {
 
     private setupWebSocket() {
         this.ws = new WebSocket('ws://localhost:8000/ws/' + this.registry.get('public_key'));
-        
+
         this.ws.onmessage = (event: any) => {
+            console.log(event.data);
             this.addChatMessage(event.data);
         };
 
@@ -55,25 +57,17 @@ export class CurrentScene extends Scene {
     }
 
     private createChatWindow() {
-        this.chatWindow = this.add.container(10, 10);
+        this.chatWindow = this.add.container(200, 500);
 
         const background = this.add.rectangle(0, 0, 200, 400, 0x000000, 0.5);
         this.chatWindow.add(background);
 
-        const inputBox = this.add.rectangle(0, 380, 190, 30, 0xffffff);
-        this.chatWindow.add(inputBox);
+        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 1 / 10, window_config.height / 20, '');
 
-        const inputText = this.add.text(0, 380, '', {
-            fontSize: '14px',
-            color: '#000000'
-        });
-        this.chatWindow.add(inputText);
-
-        inputBox.setInteractive();
-        this.input.keyboard?.on('keydown', (event: any) => {
-            if (event.keyCode === 13 && inputText.text) {
-                this.ws.send(inputText.text);
-                inputText.setText('');
+        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 10, window_config.height / 20, 'Send', () => {
+            if (inputField.text) {
+                this.ws.send(inputField.text);
+                inputField.setText('');
             }
         });
     }
@@ -83,7 +77,7 @@ export class CurrentScene extends Scene {
             fontSize: '12px',
             color: '#ffffff'
         });
-        
+
         this.chatWindow.add(newMessage);
         this.chatMessages.push(newMessage);
 
