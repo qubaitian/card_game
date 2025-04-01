@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -17,6 +17,7 @@ from server.po.db import ServerKey, User, session
 from server.po.cache import game_cache
 from server.model.CardData import card_map
 from server.service.import_all_card import import_all_cards
+from server.api.websocket_manager import manager
 
 import_all_cards()
 
@@ -86,10 +87,11 @@ class LoginRequest(BaseModel):
 
 class LoginResponse(BaseModel):
     access_token: str
-
+    public_key: str
 
 @app.post("/login")
 def login(request: LoginRequest) -> LoginResponse:
+    print('login')
     global pkserver
     global skserver
     private_key = PrivateKey(bytes.fromhex(request.private_key))
@@ -125,9 +127,23 @@ def login(request: LoginRequest) -> LoginResponse:
     ]
 
     # print(game_cache)
-    return {
-        "access_token": access_token,
-    }
+    return LoginResponse(
+        access_token=access_token,
+        public_key=public_key.encode().hex(),
+    )
+
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, client_id: int):
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # Broadcast the message to all connected clients
+            await manager.broadcast(f"Client #{client_id}: {data}")
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        await manager.broadcast(f"Client #{client_id} left the chat")
 
 
 async def verify_token_middleware(request: Request, call_next):

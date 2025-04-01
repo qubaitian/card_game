@@ -43,7 +43,7 @@ export class CurrentScene extends Scene {
     }
 
     private setupWebSocket() {
-        this.ws = new WebSocket('ws://your-server-url/chat');
+        this.ws = new WebSocket('ws://localhost:8000/ws/' + this.registry.get('public_key'));
         
         this.ws.onmessage = (event: any) => {
             this.addChatMessage(event.data);
