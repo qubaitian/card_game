@@ -15,4 +15,11 @@ describe('Network tests', () => {
     });
     assert(response.data.access_token, JSON.stringify(response.data));
   });
+
+  test("login should error when private key is invalid", async () => {
+    const response = await login_api.loginLoginPost({
+      private_key: "2ff44da770473f99a51f9413cadc0",
+    });
+    assert(!response.data.access_token, JSON.stringify(response.data));
+  });
 });

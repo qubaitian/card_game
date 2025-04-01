@@ -39,18 +39,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Add exception handlers before running the app
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
+    print(exc.__traceback__)
+    print("hello")
+    headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+    }
     # 首先检查是否为 HTTPException
-    if isinstance(exc, HTTPException):
-        return JSONResponse(
-            status_code=200,
-            content={"code": exc.status_code, "message": exc.detail},
-        )
+    # if isinstance(exc, HTTPException):
+    #     return JSONResponse(
+    #         headers=headers,
+    #         status_code=exc.status_code,
+    #         content={"code": exc.status_code, "message": exc.detail},
+    #     )
     # 处理其他所有异常
     return JSONResponse(
-        status_code=200,
+        headers=headers,
+        status_code=500,
         content={"code": 500, "message": "Internal server error", "detail": str(exc)},
     )
 
@@ -114,7 +124,7 @@ def login(request: LoginRequest) -> LoginResponse:
         card_map["PVP_1003"],
     ]
 
-    print(game_cache)
+    # print(game_cache)
     return {
         "access_token": access_token,
     }

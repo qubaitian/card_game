@@ -11,7 +11,7 @@ class Event(Enum):
     PATH = 'path'
 
 class CurrentSceneModel(BaseModel):
-    player: Player = None
+    player: Player = Player()
     event: Event = Event.LOOT_ONE
     loot_card_list: list[CardData] = []
 

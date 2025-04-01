@@ -11,3 +11,5 @@ class Slay_the_Spire_1002(Card):
 class PVP_1003(Card):
     def when_pick(self, player: Player):
         super().when_pick(player)
+    
+    

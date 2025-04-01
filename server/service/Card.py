@@ -12,6 +12,7 @@ from server.model.Player import Player, Target
 class Card(CardData):
     def when_pick(self, current_scene_model: CurrentSceneModel):
         if "event" in self.tag:
+            print(current_scene_model)
             current_scene_model.player.event.append(self.id)
         if "deck" in self.tag:
             current_scene_model.player.deck.append(self.id)
