@@ -44,7 +44,7 @@ export class CurrentScene extends Scene {
     }
 
     private setupWebSocket() {
-        this.ws = new WebSocket('ws://localhost:8000/ws/' + this.registry.get('public_key'));
+        this.ws = new WebSocket('ws://' + import.meta.env.VITE_SERVER_API_BASE_U + '/ws/' + this.registry.get('public_key'));
 
         this.ws.onmessage = (event: any) => {
             console.log(event.data);
@@ -57,14 +57,11 @@ export class CurrentScene extends Scene {
     }
 
     private createChatWindow() {
-        this.chatWindow = this.add.container(200, 500);
+        this.chatWindow = this.add.container(0, window_config.height * 6 / 20);
 
-        const background = this.add.rectangle(0, 0, 200, 400, 0x000000, 0.5);
-        this.chatWindow.add(background);
+        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 3 / 20, window_config.height / 20, '');
 
-        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 1 / 10, window_config.height / 20, '');
-
-        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 10, window_config.height / 20, 'Send', () => {
+        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 20, window_config.height / 20, 'Send', () => {
             if (inputField.text) {
                 this.ws.send(inputField.text);
                 inputField.setText('');
@@ -73,8 +70,8 @@ export class CurrentScene extends Scene {
     }
 
     private addChatMessage(message: string) {
-        const newMessage = this.add.text(5, this.chatMessages.length * 20, message, {
-            fontSize: '12px',
+        const newMessage = this.add.text(0, this.chatMessages.length * 20, message, {
+            fontSize: '16px',
             color: '#ffffff'
         });
 

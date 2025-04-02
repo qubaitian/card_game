@@ -9,6 +9,10 @@ import { CurrentScene } from './scenes/CurrentScene';
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config: Types.Core.GameConfig = {
+    audio: {
+        disableWebAudio: false,
+        noAudio: false,
+    },
     type: AUTO,
     scale: {
         mode: Scale.FIT,
