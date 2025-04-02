@@ -14,3 +14,4 @@ def get() -> Keypair:
     private_key = PrivateKey.generate()
     public_key = private_key.public_key
     return Keypair(public_key=public_key.encode().hex(), private_key=private_key.encode().hex())
+

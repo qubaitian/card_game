@@ -20,19 +20,39 @@ export function createButton(scene: Scene, x: number, y: number, width: number, 
     return button;
 }
 
-export function createInputField(scene: Scene, x: number, y: number, width: number, height: number, text: string) {
+export function createInputField(scene: Scene, x: number, y: number, width: number, height: number, text: string, callback: (text: string) => void) {
     const inputField = scene.add
         .text(x, y, text, {
+            align: 'center',
             fixedWidth: width,
+            padding: { top: height / 4 },
             fixedHeight: height,
             backgroundColor: '#ffffff',
             color: '#000000',
         })
         .setOrigin(0.5)
-        .setInteractive()
-        .on('pointerdown', () => {
-            new TextEdit(inputField).open();
-        });
+        .setInteractive();
+    inputField.on('pointerdown', () => {
+        const textEdit = new TextEdit(inputField);
+        textEdit.open();
+        scene.registry.set('currentInputField', inputField);
+    });
+    scene.registry.set('currentInputField', inputField);
+
+    scene.input.keyboard?.on('keydown-ENTER', () => {
+        const currentInputField = scene.registry.get('currentInputField');
+        if (inputField === currentInputField) {
+            if (scene.registry.get('is_open')){
+                callback(inputField.text);
+                inputField.setInteractive();
+                scene.registry.set('is_open', false);
+                return;
+            }
+            scene.registry.set('is_open', true);
+            const textEdit = new TextEdit(inputField);
+            textEdit.open();
+        }
+    });
 
     return inputField;
 }

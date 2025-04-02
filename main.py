@@ -1,3 +1,4 @@
+from faker import Faker
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -67,9 +68,9 @@ async def general_exception_handler(request: Request, exc: Exception):
 
 
 class UserResponse(BaseModel):
-    id: int
     public_key: str
     login_time: int
+    username: str
 
     class Config:
         from_attributes = True  # This enables ORM model parsing
@@ -109,14 +110,16 @@ def login(request: LoginRequest) -> LoginResponse:
         public_key.encode().hex() + "." + base64.b64encode(encrypted).decode()
     )  # Use base64 encoding
 
-    # save to db
-    user = User(public_key=public_key.encode().hex(), login_time=login_time)
-    session.add(user)
-    session.commit()
+    # search user in db
+    user = session.query(User).filter(User.public_key == public_key.encode().hex()).first()
+    if not user:
+        user = User(public_key=public_key.encode().hex(), login_time=login_time, username=Faker('zh_CN').name())
+        session.add(user)
+        session.commit()
 
     if public_key.encode().hex() not in game_cache:
         game_cache[public_key.encode().hex()] = CurrentSceneModel(
-            player=Player(public_key=public_key.encode().hex())
+            player=Player(public_key=public_key.encode().hex(), username=user.username)
         )
 
     game_cache[public_key.encode().hex()].event = Event.LOOT_ONE

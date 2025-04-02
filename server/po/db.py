@@ -11,9 +11,9 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    public_key = Column(String(50))
+    public_key = Column(String(50), primary_key=True)
     login_time = Column(Integer)
+    username = Column(String(50))
 
 # create a table for server's public key and private key
 class ServerKey(Base):

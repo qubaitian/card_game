@@ -44,7 +44,7 @@ export class CurrentScene extends Scene {
     }
 
     private setupWebSocket() {
-        this.ws = new WebSocket('ws://' + import.meta.env.VITE_SERVER_API_BASE_U + '/ws/' + this.registry.get('public_key'));
+        this.ws = new WebSocket('ws://' + import.meta.env.VITE_PYTHON_BASE_URL + '/ws/' + this.registry.get('public_key'));
 
         this.ws.onmessage = (event: any) => {
             console.log(event.data);
@@ -59,9 +59,14 @@ export class CurrentScene extends Scene {
     private createChatWindow() {
         this.chatWindow = this.add.container(0, window_config.height * 6 / 20);
 
-        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 3 / 20, window_config.height / 20, '');
+        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 3 / 20, window_config.height / 40, '', () => {
+            if (inputField.text.trim() !== '') {
+                this.ws.send(inputField.text);
+                inputField.setText('');
+            }
+        });
 
-        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 20, window_config.height / 20, 'Send', () => {
+        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 20, window_config.height / 40, 'Send', () => {
             if (inputField.text) {
                 this.ws.send(inputField.text);
                 inputField.setText('');

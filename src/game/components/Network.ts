@@ -2,7 +2,7 @@ import { Configuration, DefaultApiFactory } from "../server_api";
 import { KeypairApiFactory } from "../server_api";
 import { CardApiFactory } from "../server_api";
 import { SceneApiFactory } from "../server_api";
-const API_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_U;
+const API_BASE_URL = import.meta.env.VITE_PYTHON_BASE_URL;
 
 console.log(import.meta.env);
 console.log(API_BASE_URL);

@@ -8,6 +8,7 @@ class Target(BaseModel):
     vulnerable: int = 0
 
 class Player(Target):
+    username: str = ''
     event: list[str] = []
     deck: list[str] = []
     choice: list[str] = []

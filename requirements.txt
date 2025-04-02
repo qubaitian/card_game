@@ -4,3 +4,4 @@ pynacl
 alembic
 sqlalchemy
 Events
+Faker

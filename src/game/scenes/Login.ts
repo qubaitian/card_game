@@ -11,7 +11,9 @@ export class Login extends Scene {
 
     create() {
         // Create Phaser text input
-        const inputField = createInputField(this, window_config.width / 2, window_config.height * 9 / 20, window_config.width * 4 / 10, window_config.height / 20, '');
+        const inputField = createInputField(this, window_config.width / 2, window_config.height * 9 / 20, window_config.width * 4 / 10, window_config.height / 20, '', (text: string) => {
+            this.login(text);
+        });
 
         // 从 localStorage 恢复保存的私钥
         const savedPrivateKey = localStorage.getItem('privateKey');
@@ -29,20 +31,23 @@ export class Login extends Scene {
         });
 
         // Create login button
-        createButton(this, window_config.width * 6 / 10, window_config.height * 11 / 20, window_config.width / 10, window_config.height / 20, 'Login', async () => {
-            console.log('Login');
-            let res = await login_api.loginLoginPost({
-                private_key: inputField.text
-            });
+        createButton(this, window_config.width * 6 / 10, window_config.height * 11 / 20, window_config.width / 10, window_config.height / 20, 'Login', () => this.login(inputField.text));
+    }
 
-            token_config.baseOptions.headers.Authorization = res.data.access_token;
-
-            localStorage.setItem('privateKey', inputField.text);
-            this.registry.set('public_key', res.data.public_key);
-            this.registry.set('access_token', res.data.access_token);
-            this.registry.set('private_key', inputField.text);
-
-            this.scene.start('CurrentScene');
+    private async login(text: string) {
+        console.log('Login');
+        let res = await login_api.loginLoginPost({
+            private_key: text
         });
+
+        token_config.baseOptions.headers.Authorization = res.data.access_token;
+
+        localStorage.setItem('privateKey', text);
+        this.registry.set('public_key', res.data.public_key);
+        this.registry.set('access_token', res.data.access_token);
+        this.registry.set('private_key', text);
+
+        this.scene.start('CurrentScene');
+
     }
 }
