@@ -7,6 +7,7 @@ import { createButton, createInputField } from '../components/Button';
 
 export class CurrentScene extends Scene {
     private chatWindow: Phaser.GameObjects.Container;
+    private input_group: Phaser.GameObjects.Container;
     private chatMessages: Phaser.GameObjects.Text[];
     private ws: WebSocket;
 
@@ -59,25 +60,61 @@ export class CurrentScene extends Scene {
     private createChatWindow() {
         this.chatWindow = this.add.container(0, window_config.height * 6 / 20);
 
-        const inputField = createInputField(this, window_config.width * 1 / 10, window_config.height * 9 / 20, window_config.width * 3 / 20, window_config.height / 40, '', () => {
+        this.input_group = this.add.container(0, 0);
+        const inputField = createInputField(this, window_config.width * 1 / 20, window_config.height * 9 / 20, window_config.width * 2 / 20, window_config.height / 40, '', () => {
             if (inputField.text.trim() !== '') {
                 this.ws.send(inputField.text);
                 inputField.setText('');
             }
+            console.log('call back in input');
         });
 
-        createButton(this, window_config.width * 2 / 10, window_config.height * 9 / 20, window_config.width * 1 / 20, window_config.height / 40, 'Send', () => {
+        const button = createButton(this, window_config.width * 5 / 40, window_config.height * 9 / 20, window_config.width * 1 / 20, window_config.height / 40, 'Send', () => {
             if (inputField.text) {
                 this.ws.send(inputField.text);
                 inputField.setText('');
             }
         });
+
+        // Initially hide input field and button
+        this.input_group.setVisible(false);
+
+        this.input_group.add([inputField, button]);
+        // when enter is pressed, show input field and button
+        this.input.keyboard?.on('keydown-ENTER', () => {
+            if (!this.input_group.visible) {
+                this.input_group.setVisible(true);
+            }
+        });
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+            // 检查点击是否在聊天框区域内
+            const chatBounds = this.chatWindow.getBounds();
+            const isClickInChat = pointer.x >= chatBounds.x && 
+                                pointer.x <= chatBounds.x + chatBounds.width &&
+                                pointer.y >= chatBounds.y && 
+                                pointer.y <= chatBounds.y + chatBounds.height;
+
+            if (!this.input_group.visible && isClickInChat) {
+                // 点击聊天区域时显示输入框
+                this.input_group.setVisible(true);
+            } else if (this.input_group.visible && !isClickInChat) {
+                // 点击聊天区域外时隐藏输入框
+                inputField.setActive(false);
+                this.time.delayedCall(100, () => {
+                    this.input_group.setVisible(false);
+                });
+            }
+        });
+        this.chatWindow.add(this.input_group);
     }
 
     private addChatMessage(message: string) {
         const newMessage = this.add.text(0, this.chatMessages.length * 20, message, {
             fontSize: '16px',
             color: '#ffffff'
+        }).setInteractive();
+        newMessage.on('pointerdown', () => {
+            this.input_group.setVisible(true);
         });
 
         this.chatWindow.add(newMessage);
