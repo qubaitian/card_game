@@ -1,0 +1,156 @@
+{
+  "all": {
+    "files": [
+      {
+        "type": "image",
+        "key": "banner_common",
+        "url": "assets/card/banner_common.png"
+      },
+      {
+        "type": "image",
+        "key": "banner_rare",
+        "url": "assets/card/banner_rare.png"
+      },
+      {
+        "type": "image",
+        "key": "banner_uncommon",
+        "url": "assets/card/banner_uncommon.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_attack_blue",
+        "url": "assets/card/bg_attack_blue.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_attack_colorless",
+        "url": "assets/card/bg_attack_colorless.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_attack_green",
+        "url": "assets/card/bg_attack_green.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_attack_red",
+        "url": "assets/card/bg_attack_red.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_power_blue",
+        "url": "assets/card/bg_power_blue.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_power_colorless",
+        "url": "assets/card/bg_power_colorless.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_power_green",
+        "url": "assets/card/bg_power_green.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_power_red",
+        "url": "assets/card/bg_power_red.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_skill_blue",
+        "url": "assets/card/bg_skill_blue.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_skill_colorless",
+        "url": "assets/card/bg_skill_colorless.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_skill_curse",
+        "url": "assets/card/bg_skill_curse.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_skill_green",
+        "url": "assets/card/bg_skill_green.png"
+      },
+      {
+        "type": "image",
+        "key": "bg_skill_red",
+        "url": "assets/card/bg_skill_red.png"
+      },
+      {
+        "type": "image",
+        "key": "card_back",
+        "url": "assets/card/card_back.png"
+      },
+      {
+        "type": "image",
+        "key": "energy_blue",
+        "url": "assets/card/energy_blue.png"
+      },
+      {
+        "type": "image",
+        "key": "energy_colorless",
+        "url": "assets/card/energy_colorless.png"
+      },
+      {
+        "type": "image",
+        "key": "energy_green",
+        "url": "assets/card/energy_green.png"
+      },
+      {
+        "type": "image",
+        "key": "energy_red",
+        "url": "assets/card/energy_red.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_attack_common",
+        "url": "assets/card/frame_attack_common.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_attack_rare",
+        "url": "assets/card/frame_attack_rare.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_attack_uncommon",
+        "url": "assets/card/frame_attack_uncommon.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_power_common",
+        "url": "assets/card/frame_power_common.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_power_rare",
+        "url": "assets/card/frame_power_rare.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_power_uncommon",
+        "url": "assets/card/frame_power_uncommon.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_skill_common",
+        "url": "assets/card/frame_skill_common.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_skill_rare",
+        "url": "assets/card/frame_skill_rare.png"
+      },
+      {
+        "type": "image",
+        "key": "frame_skill_uncommon",
+        "url": "assets/card/frame_skill_uncommon.png"
+      }
+    ]
+  }
+}

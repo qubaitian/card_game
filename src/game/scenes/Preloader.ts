@@ -6,20 +6,16 @@ export class Preloader extends Scene {
     }
 
     preload() {
-        // 开始加载所有资源
-        this.load.setPath('assets');
-        
+        this.load.image('banner_common', 'assets/card/banner_common.png');
         // 加载所有游戏资源
-        // this.load.image('star', 'star.png');
-        // this.load.image('background', 'bg.png');
-        // this.load.image('logo', 'logo.png');
-        // this.load.image('bg', 'bg.png');
+        this.load.pack('all', 'assets/pack.json');
+        
         // 在这里添加其他需要加载的资源
 
         if (!this.registry.has('language')) {
             this.registry.set('language', 'en');
         }
-
+        // 在这里继续加载其他资源...
     }
 
     create() {

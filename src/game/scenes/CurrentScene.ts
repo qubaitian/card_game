@@ -17,8 +17,14 @@ export class CurrentScene extends Scene {
     }
 
     async create() {
-        this.setupWebSocket();
+        this.game.events.on('ws_message', (message: string) => {
+            console.log('ws_message');
+            this.addChatMessage(message);
+        });
 
+        if (this.ws === undefined) {
+            this.ws = this.registry.get('ws') as WebSocket;
+        }
         this.createChatWindow();
 
         const res = await scene_api.currentSceneCurrentPost()
@@ -44,18 +50,6 @@ export class CurrentScene extends Scene {
         }
     }
 
-    private setupWebSocket() {
-        this.ws = new WebSocket('ws://' + import.meta.env.VITE_PYTHON_BASE_URL + '/ws/' + this.registry.get('public_key'));
-
-        this.ws.onmessage = (event: any) => {
-            console.log(event.data);
-            this.addChatMessage(event.data);
-        };
-
-        this.ws.onclose = () => {
-            console.log('WebSocket连接已关闭');
-        };
-    }
 
     private createChatWindow() {
         this.chatWindow = this.add.container(0, window_config.height * 6 / 20);
@@ -127,5 +121,9 @@ export class CurrentScene extends Scene {
                 msg.setY(index * 20);
             });
         }
+    }
+
+    update(time: number, delta: number): void {
+
     }
 }

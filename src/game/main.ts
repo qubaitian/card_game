@@ -4,7 +4,7 @@ import { Preloader } from './scenes/Preloader';
 import { Login } from './scenes/Login';
 import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin'
 import { CurrentScene } from './scenes/CurrentScene';
-
+import { SelectMode } from './scenes/SelectMode';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -24,7 +24,8 @@ const config: Types.Core.GameConfig = {
     scene: [
         Preloader,  // 添加 Preloader 作为第一个场景
         Login,
-        CurrentScene,
+        // CurrentScene,
+        SelectMode,
     ],
     parent: 'phaser-container',
     dom: {

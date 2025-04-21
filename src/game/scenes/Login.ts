@@ -47,7 +47,28 @@ export class Login extends Scene {
         this.registry.set('access_token', res.data.access_token);
         this.registry.set('private_key', text);
 
-        this.scene.start('CurrentScene');
+        this.setupWebSocket();
 
+        this.scene.start('SelectMode');
     }
+
+
+    private setupWebSocket() {
+        const ws = new WebSocket('ws://' + import.meta.env.VITE_PYTHON_BASE_URL + '/ws/' + this.registry.get('public_key'));
+
+        ws.onmessage = (event: any) => {
+            console.log("emit,", event.data);
+            // emit a event
+            this.game.events.emit('ws_message', event.data);
+        };
+        ws.onopen = () => {
+            console.log('WebSocket连接已打开');
+        };
+        ws.onclose = () => {
+            console.log('WebSocket连接已关闭');
+        };
+
+        this.registry.set('ws', ws);
+    }
+
 }
