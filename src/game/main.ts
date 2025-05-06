@@ -7,6 +7,10 @@ import { CurrentScene } from './scenes/CurrentScene';
 import { SelectMode } from './scenes/SelectMode';
 import { ShowCurve } from './scenes/ShowCurve';
 import { ShowDrag } from './scenes/ShowDrag';
+import { ShowNeow } from './scenes/ShowNeow';
+import { ShowBattle } from './scenes/ShowBattle';
+import { SpinePlugin } from '@esotericsoftware/spine-phaser-v3';
+import { SelectTexture } from './scenes/SelectTexture';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -28,8 +32,11 @@ const config: Types.Core.GameConfig = {
         Login,
         CurrentScene,
         SelectMode,
+        ShowNeow,
         ShowCurve,
         ShowDrag,
+        ShowBattle,
+        SelectTexture,
     ],
     parent: 'phaser-container',
     dom: {
@@ -41,7 +48,8 @@ const config: Types.Core.GameConfig = {
                 key: 'rexUI',
                 plugin: RexUIPlugin,
                 mapping: 'rexUI'
-            }
+            },
+            { key: "spine.SpinePlugin", plugin: SpinePlugin, mapping: "spine" }
         ]
     }
 };

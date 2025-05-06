@@ -28,6 +28,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "@esotericsoftware/spine-phaser-v3": "^4.2.77",
         "axios": "^1.8.3",
         "phaser": "^3.88.2",
         "phaser3-rex-plugins": "^1.80.14",

@@ -58,6 +58,20 @@ export class SelectMode extends Scene {
             console.log('展示拖拽');
             this.scene.start('ShowDrag');
         });
+        this.createMenuItem(window_config.width * 3 / 10, window_config.height * 34 / 40, '展示neow', () => {
+            console.log('展示neow');
+            this.scene.start('ShowNeow');
+        });
+
+        this.createMenuItem(window_config.width * 5 / 10, window_config.height * 28 / 40, '展示战斗', () => {
+            console.log('展示战斗');
+            this.scene.start('ShowBattle');
+        });
+
+        this.createMenuItem(window_config.width * 5 / 10, window_config.height * 31 / 40, '选择纹理', () => {
+            console.log('选择纹理');
+            this.scene.start('SelectTexture');
+        });
     }
 
     // 创建带有鼠标悬停效果的菜单项

@@ -43,3 +43,10 @@ def loot_any(request: Request, loot_any_model: LootAnyModel) -> CurrentSceneMode
         card = card_map[card_data.id]
         card.when_pick(current_scene_model.player)
     return current_scene_model
+
+@router.post("/demo_battle")
+def demo_battle(request: Request) -> CurrentSceneModel:
+    public_key = request.state.public_key
+    current_scene_model = game_cache[public_key]
+    current_scene_model.demo_battle()
+    return current_scene_model

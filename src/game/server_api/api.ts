@@ -286,6 +286,12 @@ export interface Player {
     'vulnerable'?: number;
     /**
      * 
+     * @type {string}
+     * @memberof Player
+     */
+    'username'?: string;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof Player
      */
@@ -317,12 +323,6 @@ export interface Player {
 export interface UserResponse {
     /**
      * 
-     * @type {number}
-     * @memberof UserResponse
-     */
-    'id': number;
-    /**
-     * 
      * @type {string}
      * @memberof UserResponse
      */
@@ -333,6 +333,12 @@ export interface UserResponse {
      * @memberof UserResponse
      */
     'login_time': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserResponse
+     */
+    'username': string;
 }
 /**
  * 

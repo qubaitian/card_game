@@ -2,23 +2,30 @@ import { Scene } from 'phaser';
 
 
 export class ShowCurve extends Scene {
-    graphics: Phaser.GameObjects.Graphics;
-    points: Phaser.Math.Vector2[];
-    curve: Phaser.Curves.QuadraticBezier;
-    path: { t: number, vec: Phaser.Math.Vector2 };
+    private graphics: Phaser.GameObjects.Graphics;
+    private curve: Phaser.Curves.QuadraticBezier;
+    private path: { t: number, vec: Phaser.Math.Vector2 };
+    private point1: Phaser.GameObjects.Image;
+    private blocks: Phaser.GameObjects.Image[] = [];
+    
+    // 添加新的变量来跟踪拖拽状态
+    private isDragging: boolean = false;
+    private draggedObject: Phaser.GameObjects.Image | null = null;
+    private dragPosition: Phaser.Math.Vector2 = new Phaser.Math.Vector2();
 
     constructor() {
-        super({ key: 'ShowCurve' });
+        super({
+            key: 'ShowCurve'
+        });
     }
 
-    preload ()
-    {
-        // this.load.setBaseURL('https://cdn.phaserfiles.com/v385');
+    preload() {
         this.load.spritesheet('dragcircle', 'assets/dragcircle.png', { frameWidth: 16 });
+        this.load.image('reticleBlock', 'assets/images/ui/combat/reticleBlock.png');
+        this.load.image('reticleArrow', 'assets/images/ui/combat/reticleArrow.png');
     }
 
-    create ()
-    {
+    create() {
         this.graphics = this.add.graphics();
 
         this.path = { t: 0, vec: new Phaser.Math.Vector2() };
@@ -29,11 +36,11 @@ export class ShowCurve extends Scene {
 
         this.curve = new Phaser.Curves.QuadraticBezier(startPoint, controlPoint1, endPoint);
 
-        this.points = this.curve.getSpacedPoints(32);
-
         const point0 = this.add.image(startPoint.x, startPoint.y, 'dragcircle', 0).setInteractive();
-        const point1 = this.add.image(endPoint.x, endPoint.y, 'dragcircle', 0).setInteractive();
+        const point1 = this.add.image(endPoint.x, endPoint.y, 'reticleArrow').setInteractive().setDepth(1);
         const point2 = this.add.image(controlPoint1.x, controlPoint1.y, 'dragcircle', 2).setInteractive();
+        this.point1 = point1;
+        point1.setTint(0xffcc99);
 
         point0.setData('vector', startPoint);
         point1.setData('vector', endPoint);
@@ -43,40 +50,29 @@ export class ShowCurve extends Scene {
         point1.setData('isControl', false);
         point2.setData('isControl', true);
 
-        this.input.setDraggable([ point0, point1, point2 ]);
+        this.input.setDraggable([point0, point1, point2]);
 
-        this.input.on('dragstart', (pointer: any, gameObject: any) =>
-        {
-
+        this.input.on('dragstart', (pointer: any, gameObject: any) => {
             gameObject.setFrame(1);
-
+            this.isDragging = true;
+            this.draggedObject = gameObject;
         });
 
-        this.input.on('drag', (pointer: any, gameObject: any, dragX: any, dragY: any) =>
-        {
-
-            gameObject.x = dragX;
-            gameObject.y = dragY;
-
-            gameObject.data.get('vector').set(dragX, dragY);
-
-            //  Get 32 points equally spaced out along the curve
-            this.points = this.curve.getSpacedPoints(32);
-
+        this.input.on('drag', (pointer: any, gameObject: Phaser.GameObjects.Image, dragX: any, dragY: any) => {
+            // 只更新拖拽位置，实际处理将在update中进行
+            this.dragPosition.set(dragX, dragY);
         });
 
-        this.input.on('dragend', (pointer: any, gameObject: any) =>
-        {
-
-            if (gameObject.data.get('isControl'))
-            {
+        this.input.on('dragend', (pointer: any, gameObject: any) => {
+            if (gameObject.data.get('isControl')) {
                 gameObject.setFrame(2);
             }
-            else
-            {
+            else {
                 gameObject.setFrame(0);
             }
-
+            
+            this.isDragging = false;
+            this.draggedObject = null;
         });
 
         this.tweens.add({
@@ -89,35 +85,42 @@ export class ShowCurve extends Scene {
         });
     }
 
-    update ()
-    {
-        this.graphics.clear();
-
-        // 绘制人行横道线效果（而不是连续曲线）
-        this.graphics.lineStyle(10, 0xffffff, 1); // 更粗的白色线条
-
-        // 创建人行横道线效果（间隔的条纹）
-        const stripeLength = 0.03; // 每个条纹的长度比例
-        const gapLength = 0.03;    // 每个间隙的长度比例
-        
-        for (let t = 0; t < 1; t += stripeLength + gapLength) {
-            // 绘制曲线的一小段作为条纹
-            const startPoint = new Phaser.Math.Vector2();
-            const endPoint = new Phaser.Math.Vector2();
+    update(delta: number, time: number) {
+        // 每帧检查并处理拖拽
+        if (this.isDragging && this.draggedObject) {
+            const gameObject = this.draggedObject;
+            const dragX = this.dragPosition.x;
+            const dragY = this.dragPosition.y;
             
-            this.curve.getPoint(t, startPoint);
-            this.curve.getPoint(Math.min(t + stripeLength, 1), endPoint);
+            // 更新对象位置
+            gameObject.x = dragX;
+            gameObject.y = dragY;
             
-            this.graphics.beginPath();
-            this.graphics.moveTo(startPoint.x, startPoint.y);
-            this.graphics.lineTo(endPoint.x, endPoint.y);
-            this.graphics.strokePath();
+            // 更新向量数据
+            gameObject.data.get('vector').set(dragX, dragY);
+            
+            // 清除现有块
+            this.blocks.forEach(block => block.destroy());
+            this.blocks = [];
+            
+            // 重新绘制曲线
+            this.graphics.clear();
+            this.curve.draw(this.graphics);
+            
+            // 更新箭头旋转
+            this.point1.setRotation(this.curve.getTangent(1).angle() + Math.PI / 2);
+            
+            // 创建人行横道线效果（间隔的条纹）
+            const stripeLength = 0.03;
+            const gapLength = 0.03;
+            
+            for (let t = 0; t < 1; t += stripeLength + gapLength) {
+                const startPoint = new Phaser.Math.Vector2();
+                this.curve.getPoint(t, startPoint);
+                const block = this.add.image(startPoint.x, startPoint.y, 'reticleBlock')
+                    .setRotation(this.curve.getTangent(t).angle() + Math.PI / 2);
+                this.blocks.push(block);
+            }
         }
-
-        // 绘制移动点t
-        this.curve.getPoint(this.path.t, this.path.vec);
-
-        this.graphics.fillStyle(0xff0000, 1);
-        this.graphics.fillCircle(this.path.vec.x, this.path.vec.y, 50);
     }
 }

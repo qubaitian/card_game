@@ -74,6 +74,9 @@ VITE_SERVER_API_BASE_URL=http://192.168.31.78:8000
             4. discard 弃牌
             5. consume 消耗
 
+8. 每个操作都是一个动画  
+   每个东西都是一个图片  
+   每个数据交互都是一个请求
 ---
 
 ```mermaid
@@ -90,3 +93,4 @@ sequenceDiagram
     s->>c: scene_data
     c->>p: generate hand_data
 ```
+---
