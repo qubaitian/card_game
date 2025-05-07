@@ -72,6 +72,11 @@ export class SelectMode extends Scene {
             console.log('选择纹理');
             this.scene.start('SelectTexture');
         });
+
+        this.createMenuItem(window_config.width * 5 / 10, window_config.height * 34 / 40, '展示手牌', () => {
+            console.log('展示手牌');
+            this.scene.start('ShowHand');
+        });
     }
 
     // 创建带有鼠标悬停效果的菜单项
