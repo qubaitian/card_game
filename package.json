@@ -30,6 +30,7 @@
     "dependencies": {
         "@esotericsoftware/spine-phaser-v3": "^4.2.77",
         "axios": "^1.8.3",
+        "dotenv": "^16.5.0",
         "phaser": "^3.88.2",
         "phaser3-rex-plugins": "^1.80.14",
         "vue": "^3.4.27"

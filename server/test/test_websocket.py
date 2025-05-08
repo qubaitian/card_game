@@ -1,5 +1,8 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import HTMLResponse
 from typing import List
+import asyncio
+import datetime
 
 app = FastAPI()
 
@@ -21,8 +24,24 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+# 添加定时广播任务
+async def periodic_broadcast():
+    while True:
+        # 创建包含当前时间的消息
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        await manager.broadcast(f"Server time: {current_time}")
+        # 等待1秒
+        await asyncio.sleep(1)
+
+# 在应用启动时启动后台任务
+@app.on_event("startup")
+async def startup_event():
+    # 启动定时广播任务
+    asyncio.create_task(periodic_broadcast())
+
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+async def websocket_endpoint(websocket: WebSocket, client_id: str):
+    print("connect============")
     await manager.connect(websocket)
     try:
         while True:
@@ -34,7 +53,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
         await manager.broadcast(f"Client #{client_id} left the chat")
 
 # Regular HTTP endpoint for serving the HTML page
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def get():
     return """
     <!DOCTYPE html>
@@ -50,7 +69,7 @@ async def get():
             
             <script>
                 var clientId = Math.floor(Math.random() * 1000);
-                var ws = new WebSocket(`ws://localhost:8000/ws/${clientId}`);
+                var ws = new WebSocket(`ws://192.168.31.78:8000/ws/${clientId}`);
                 
                 ws.onmessage = function(event) {
                     var messages = document.getElementById('messages');

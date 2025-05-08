@@ -138,6 +138,7 @@ def login(request: LoginRequest) -> LoginResponse:
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
+    print("----------------------")
     await manager.connect(websocket, client_id)
     name = game_cache[client_id].player.username
     try:

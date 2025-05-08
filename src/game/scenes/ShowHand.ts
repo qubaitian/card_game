@@ -24,7 +24,7 @@ export class ShowHand extends Scene {
     }
 
     update(time: number, delta: number): void {
-        // 更新逻辑（如果需要）
+        // 更新逻辑（如果需要
     }
     
     private create_one_card(index: number): Phaser.GameObjects.Container {
@@ -39,12 +39,11 @@ export class ShowHand extends Scene {
         container.setScale(0.5);
 
         // 添加拖拽功能
-        container.setInteractive(new Phaser.Geom.Rectangle(-100, -100, 200, 200), Phaser.Geom.Rectangle.Contains);
+        container.setInteractive(new Phaser.Geom.Rectangle(-230, -330, 440, 660), Phaser.Geom.Rectangle.Contains);
         this.input.setDraggable(container);
 
         // 拖拽事件
         container.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-            console.log(pointer, dragX, dragY);
             container.x = dragX;
             container.y = dragY;
         });
@@ -59,31 +58,44 @@ export class ShowHand extends Scene {
             container.setAlpha(1);
             this.cards.splice(this.cards.indexOf(container), 1);
             // 整理卡牌
-            console.log(this.cards);
             this.createCards(this.cards);
             container.destroy();
         });
 
         return container;
-        
     }
 
     private createCards(card_list: Phaser.GameObjects.Container[]): void {
         console.log(card_list.length);
-        const cardWidth = 256;
-        const cardHeight = 256;
+        let cardWidth = 256;
+        let cardHeight = 256;
         const numCards = card_list.length;
         
         // 圆弧的参数
         const arcRadius = window_config.height * 2; // 圆弧半径
-        const arcAngleRange = Math.PI * 1 / 5; // 圆弧角度范围（90度）
+        let arcAngleRange = Math.PI * 1 / 5; // 圆弧角度范围（90度)
+
+        // 如果卡牌数量太多，则缩小卡牌大小 
+        if (cardWidth * numCards > arcRadius * arcAngleRange) {
+            cardWidth = arcRadius * arcAngleRange / numCards;
+            cardHeight = cardWidth;
+        } else {
+            // 如果卡牌数量太少，则缩小圆弧角度范围
+            arcAngleRange = cardWidth * numCards / arcRadius;
+        }
+
         const centerX = window_config.width / 2;
         const centerY = window_config.height * 35 / 12; // 圆心在屏幕下方
         
         // 创建卡牌
         for (let i = 0; i < numCards; i++) {
             // 计算卡牌在圆弧上的位置
-            const angle = -Math.PI / 2 - arcAngleRange / 2 + (arcAngleRange / (numCards - 1)) * i;
+            let angle;
+            if (numCards > 1) {
+                angle = -Math.PI / 2 - arcAngleRange / 2 + (arcAngleRange / (numCards - 1)) * i;
+            } else {
+                angle = -Math.PI / 2;
+            }
             const x = centerX + arcRadius * Math.cos(angle);
             const y = centerY + arcRadius * Math.sin(angle);
             
