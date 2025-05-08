@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import window_config from '../config/window_config';
-import Container from 'phaser3-rex-plugins/templates/ui/container/Container';
+import { CurrentSceneModel } from '../server_api/api';
 
 
 export class SelectMode extends Scene {
@@ -11,10 +11,7 @@ export class SelectMode extends Scene {
     }
 
     preload() {
-        this.load.image('background', 'assets/select_mode_backgroud.png');
-        this.load.image('cloud1', 'assets/cloud1.png');
-        this.load.image('cloud2', 'assets/cloud2.png');
-        this.load.image('cloud3', 'assets/cloud3.png');
+
     }
 
     create() {
@@ -34,15 +31,23 @@ export class SelectMode extends Scene {
                 ;
             this.clouds.add(cloud);
         }
+        const scene_model = this.registry.get('scene') as CurrentSceneModel;
 
         // 创建菜单选项
+        this.createMenuItem(window_config.width * 1 / 10, window_config.height * 25 / 40, '继续', () => {
+            console.log('继续');
+            this.scene.start(scene_model.scene);
+        });
+
         this.createMenuItem(window_config.width * 1 / 10, window_config.height * 28 / 40, '开始游戏', () => {
             console.log('开始游戏');
-            this.scene.start('CurrentScene');
+            this.scene.start(scene_model.scene);
         });
+
         this.createMenuItem(window_config.width * 1 / 10, window_config.height * 31 / 40, '设定', () => {
             console.log('设定');
         });
+
         this.createMenuItem(window_config.width * 1 / 10, window_config.height * 34 / 40, '补丁内容', () => {
             console.log('补丁内容');
         });
@@ -77,6 +82,11 @@ export class SelectMode extends Scene {
             console.log('展示手牌');
             this.scene.start('ShowHand');
         });
+
+        this.createMenuItem(window_config.width * 5 / 10, window_config.height * 37 / 40, '选择路径', () => {
+            console.log('选择路径');
+            this.scene.start('SelectPath');
+        });
     }
 
     // 创建带有鼠标悬停效果的菜单项
@@ -84,35 +94,35 @@ export class SelectMode extends Scene {
         // 创建背景矩形（初始不可见）
         const padding = 20; // 文本周围的内边距
         const bg = this.add.rectangle(
-            x, 
+            x,
             y, // 调整使矩形垂直居中于文本
             200, // 宽度，根据需要调整
             70,  // 高度，根据需要调整
             0xFFFF00 // 黄色
         )
-        .setOrigin(0, 0)
-        .setAlpha(0); // 初始不可见
+            .setOrigin(0, 0)
+            .setAlpha(0); // 初始不可见
 
         // 创建文本
-        const textObj = this.add.text(x, y, text, { 
-            fontSize: 48, 
+        const textObj = this.add.text(x, y, text, {
+            fontSize: 48,
             color: '#fff'
         }).setOrigin(0, 0);
-        
+
         // 使文本可交互
         textObj.setInteractive({ useHandCursor: true });
-        
+
         // 鼠标悬停事件
         textObj.on('pointerover', () => {
             bg.setAlpha(0.5); // 显示背景
         });
-        
+
         // 鼠标离开事件
         textObj.on('pointerout', () => {
             bg.setAlpha(0); // 隐藏背景
         });
 
-        
+
         // 可选：点击事件
         textObj.on('pointerdown', onClick);
         return { bg, text: textObj };

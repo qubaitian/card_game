@@ -32,6 +32,10 @@ export class Preloader extends Scene {
         if (!this.registry.has('language')) {
             this.registry.set('language', 'en');
         }
+        // 加载字体
+        this.load.font('bold', 'font/zhs/SourceHanSerifSC-Bold.otf');
+        this.load.font('regular', 'font/zhs/NotoSansMonoCJKsc-Regular.otf');
+        this.load.font('medium', 'font/zhs/SourceHanSerifSC-Medium.otf');
         // 在这里继续加载其他资源...
     }
 

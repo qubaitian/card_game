@@ -11,7 +11,7 @@ import base64
 from server.api.keypair import router as keypair_router
 from server.api.card import router as card_router
 from server.api.scene import router as scene_router
-
+from server.api.event import router as event_router
 from server.model.Player import Player
 from server.model.Game import CurrentSceneModel, Event
 from server.po.db import ServerKey, User, session
@@ -195,6 +195,7 @@ async def verify_token_middleware(request: Request, call_next):
 app.include_router(card_router, prefix="/card", tags=["card"])
 app.include_router(scene_router, prefix="/scene", tags=["scene"])
 app.include_router(keypair_router, tags=["keypair"])
+app.include_router(event_router, prefix="/event", tags=["event"])
 app.middleware("http")(verify_token_middleware)
 
 

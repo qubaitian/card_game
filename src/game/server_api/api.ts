@@ -88,6 +88,19 @@ export interface CardText {
 /**
  * 
  * @export
+ * @interface ChooseModel
+ */
+export interface ChooseModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof ChooseModel
+     */
+    'choose_id'?: number;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -110,6 +123,12 @@ export type Color = typeof Color[keyof typeof Color];
 export interface CurrentSceneModel {
     /**
      * 
+     * @type {string}
+     * @memberof CurrentSceneModel
+     */
+    'scene'?: string;
+    /**
+     * 
      * @type {Player}
      * @memberof CurrentSceneModel
      */
@@ -126,6 +145,12 @@ export interface CurrentSceneModel {
      * @memberof CurrentSceneModel
      */
     'loot_card_list'?: Array<CardData>;
+    /**
+     * 
+     * @type {Array<GameEvent>}
+     * @memberof CurrentSceneModel
+     */
+    'game_event_list'?: Array<GameEvent>;
 }
 
 
@@ -143,6 +168,33 @@ export const Event = {
 } as const;
 
 export type Event = typeof Event[keyof typeof Event];
+
+
+/**
+ * 
+ * @export
+ * @interface GameEvent
+ */
+export interface GameEvent {
+    /**
+     * 
+     * @type {Event}
+     * @memberof GameEvent
+     */
+    'event'?: Event;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GameEvent
+     */
+    'event_option_list'?: Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof GameEvent
+     */
+    'selected_option'?: number;
+}
 
 
 /**
@@ -647,6 +699,116 @@ export class DefaultApi extends BaseAPI {
 
 
 /**
+ * EventApi - axios parameter creator
+ * @export
+ */
+export const EventApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Choose
+         * @param {ChooseModel} chooseModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        chooseEventChoosePost: async (chooseModel: ChooseModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'chooseModel' is not null or undefined
+            assertParamExists('chooseEventChoosePost', 'chooseModel', chooseModel)
+            const localVarPath = `/event/choose`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(chooseModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EventApi - functional programming interface
+ * @export
+ */
+export const EventApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EventApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Choose
+         * @param {ChooseModel} chooseModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async chooseEventChoosePost(chooseModel: ChooseModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.chooseEventChoosePost(chooseModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventApi.chooseEventChoosePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * EventApi - factory interface
+ * @export
+ */
+export const EventApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EventApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Choose
+         * @param {ChooseModel} chooseModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        chooseEventChoosePost(chooseModel: ChooseModel, options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.chooseEventChoosePost(chooseModel, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EventApi - object-oriented interface
+ * @export
+ * @class EventApi
+ * @extends {BaseAPI}
+ */
+export class EventApi extends BaseAPI {
+    /**
+     * 
+     * @summary Choose
+     * @param {ChooseModel} chooseModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventApi
+     */
+    public chooseEventChoosePost(chooseModel: ChooseModel, options?: RawAxiosRequestConfig) {
+        return EventApiFp(this.configuration).chooseEventChoosePost(chooseModel, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * KeypairApi - axios parameter creator
  * @export
  */
@@ -785,6 +947,36 @@ export const SceneApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @summary Demo Battle
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        demoBattleSceneDemoBattlePost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/scene/demo_battle`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Loot Any
          * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
@@ -879,6 +1071,18 @@ export const SceneApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Demo Battle
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async demoBattleSceneDemoBattlePost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CurrentSceneModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.demoBattleSceneDemoBattlePost(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SceneApi.demoBattleSceneDemoBattlePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Loot Any
          * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
@@ -924,6 +1128,15 @@ export const SceneApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @summary Demo Battle
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        demoBattleSceneDemoBattlePost(options?: RawAxiosRequestConfig): AxiosPromise<CurrentSceneModel> {
+            return localVarFp.demoBattleSceneDemoBattlePost(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Loot Any
          * @param {LootAnyModel} lootAnyModel 
          * @param {*} [options] Override http request option.
@@ -961,6 +1174,17 @@ export class SceneApi extends BaseAPI {
      */
     public currentSceneCurrentPost(options?: RawAxiosRequestConfig) {
         return SceneApiFp(this.configuration).currentSceneCurrentPost(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Demo Battle
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SceneApi
+     */
+    public demoBattleSceneDemoBattlePost(options?: RawAxiosRequestConfig) {
+        return SceneApiFp(this.configuration).demoBattleSceneDemoBattlePost(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

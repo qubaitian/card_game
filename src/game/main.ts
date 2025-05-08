@@ -12,6 +12,7 @@ import { ShowBattle } from './scenes/ShowBattle';
 import { SpinePlugin } from '@esotericsoftware/spine-phaser-v3';
 import { SelectTexture } from './scenes/SelectTexture';
 import { ShowHand } from './scenes/ShowHand';
+import { SelectPath } from './scenes/SelectPath';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -39,6 +40,7 @@ const config: Types.Core.GameConfig = {
         ShowBattle,
         SelectTexture,
         ShowHand,
+        SelectPath,
     ],
     parent: 'phaser-container',
     dom: {

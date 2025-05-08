@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import window_config from '../config/window_config';
 import { createButton, createInputField } from '../components/Button';
-import { keypair_api, login_api, token_config } from '../components/Network';
+import { keypair_api, login_api, scene_api, token_config } from '../components/Network';
 
 export class Login extends Scene {
 
@@ -46,6 +46,10 @@ export class Login extends Scene {
         this.registry.set('public_key', res.data.public_key);
         this.registry.set('access_token', res.data.access_token);
         this.registry.set('private_key', text);
+
+        let scene = await scene_api.currentSceneCurrentPost();
+        console.log(scene);
+        this.registry.set('scene', scene.data);
 
         this.setupWebSocket();
 

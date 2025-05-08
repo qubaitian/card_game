@@ -1,4 +1,4 @@
-import { Configuration, DefaultApiFactory } from "../server_api";
+import { Configuration, DefaultApiFactory, EventApiFactory } from "../server_api";
 import { KeypairApiFactory } from "../server_api";
 import { CardApiFactory } from "../server_api";
 import { SceneApiFactory } from "../server_api";
@@ -19,3 +19,4 @@ export const keypair_api = KeypairApiFactory(token_config);
 export const login_api = DefaultApiFactory(token_config);
 export const card_api = CardApiFactory(token_config);
 export const scene_api = SceneApiFactory(token_config);
+export const event_api = EventApiFactory(token_config);
